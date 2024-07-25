@@ -80,6 +80,7 @@ public class VentanaInicio extends JFrame {
 				vs.setVisible(true);
 			}
 		});
+		
 		btnIniciarSesion.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnIniciarSesion.setBounds(308, 351, 187, 33);
 		panel.add(btnIniciarSesion);
