@@ -1,14 +1,12 @@
-package clases;
+ package clases;
 
 public class Usuario {
 	
 	private int id;
 	private String nombre;
 	private String apellido;
-	private String password;
-	private int dni;
 	private int telefono;
-	private int cargo;
+	
 	
 	
 	public Usuario() {
@@ -16,15 +14,12 @@ public class Usuario {
 	}
 
 
-	public Usuario(int id, String nombre, String apellido, String password, int dni, int telefono, int cargo) {
+	public Usuario(int id, String nombre, String apellido, int telefono) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
-		this.password = password;
-		this.dni = dni;
 		this.telefono = telefono;
-		this.cargo = cargo;
 	}
 
 
@@ -58,26 +53,6 @@ public class Usuario {
 	}
 
 
-	public String getPassword() {
-		return password;
-	}
-
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-
-	public int getDni() {
-		return dni;
-	}
-
-
-	public void setDni(int dni) {
-		this.dni = dni;
-	}
-
-
 	public int getTelefono() {
 		return telefono;
 	}
@@ -88,19 +63,10 @@ public class Usuario {
 	}
 
 
-	public int getCargo() {
-		return cargo;
-	}
-
-
-	public void setCargo(int cargo) {
-		this.cargo = cargo;
-	}
-
-
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", password=" + password
-				+ ", dni=" + dni + ", telefono=" + telefono + ", cargo=" + cargo + "]";
+		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", telefono=" + telefono + "]";
 	}
+
+		
 }
