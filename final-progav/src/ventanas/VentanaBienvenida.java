@@ -10,12 +10,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
-public class VentanaSeleccion extends JFrame {
+public class VentanaBienvenida extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	static VentanaSeleccion frame = new VentanaSeleccion();
+	static VentanaBienvenida frame = new VentanaBienvenida();
 
 	/**
 	 * Launch the application.
@@ -39,7 +40,7 @@ public class VentanaSeleccion extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaSeleccion() {
+	public VentanaBienvenida() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 854, 586);
 		contentPane = new JPanel();
@@ -58,26 +59,34 @@ public class VentanaSeleccion extends JFrame {
 		lblNewLabel.setBounds(258, 27, 275, 39);
 		panel.add(lblNewLabel);
 		
-		JLabel lblSeleccioneUnaOpcion = new JLabel("Seleccione una opcion");
-		lblSeleccioneUnaOpcion.setFont(new Font("Tahoma", Font.BOLD, 17));
-		lblSeleccioneUnaOpcion.setBounds(289, 136, 206, 39);
+		JLabel lblSeleccioneUnaOpcion = new JLabel("Bienvenidos ... ");
+		lblSeleccioneUnaOpcion.setFont(new Font("Tahoma", Font.ITALIC, 17));
+		lblSeleccioneUnaOpcion.setBounds(343, 124, 120, 39);
 		panel.add(lblSeleccioneUnaOpcion);
 		
 		JButton btnNewButton = new JButton("Administracion");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				RegistroEmpleado re = new RegistroEmpleado();
+				re.setVisible(true);
+			}
+		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 17));
-		btnNewButton.setBounds(112, 270, 179, 63);
+		btnNewButton.setBounds(609, 441, 179, 63);
 		panel.add(btnNewButton);
 		
-		JButton btnVen = new JButton("Ventas");
+		JButton btnVen = new JButton("REALIZAR COMPRA");
+		btnVen.setBackground(new Color(102, 153, 255));
 		btnVen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				VentanaProductos vp = new VentanaProductos();
-				vp.setVisible(true);
+				RegistroCliente rc = new RegistroCliente();
+				rc.setVisible(true);
 			}
 		});
 		btnVen.setFont(new Font("Tahoma", Font.BOLD, 17));
-		btnVen.setBounds(481, 270, 179, 63);
+		btnVen.setBounds(258, 214, 275, 87);
 		panel.add(btnVen);
 		
 		

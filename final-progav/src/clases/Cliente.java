@@ -1,5 +1,10 @@
 package clases;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+import conector.Conexion;
+
 public class Cliente extends Usuario{
 	private int numeroMembresia;
 
@@ -7,8 +12,8 @@ public class Cliente extends Usuario{
 		super();
 	}
 
-	public Cliente(int id, String nombre, String apellido, int telefono, int numeroMembresia) {
-		super(id, nombre, apellido, telefono);
+	public Cliente(String nombre, String apellido, int telefono) {
+		super(nombre, apellido, telefono);
 		this.numeroMembresia = numeroMembresia;
 	}
 
@@ -24,6 +29,32 @@ public class Cliente extends Usuario{
 	public String toString() {
 		return "Cliente [toString()=" + super.toString() + ", numeroMembresia=" + numeroMembresia + "]";
 	}
+	
+	public boolean guardarCliente() {
+		Conexion con = new Conexion();
+		Connection conect = con.conectar();
+		
+		PreparedStatement stmt;
+		
+		String consulta = "INSERT INTO `cliente`(`nombre_cliente`, `apellido_cliente`, `telefono_cliente`) VALUES (?,?,?)";
+		try {
+			stmt = conect.prepareStatement(consulta);
+			stmt.setString(1, super.getNombre());
+			stmt.setString(2, super.getApellido());
+			stmt.setInt(3, super.getTelefono());
+			stmt.executeUpdate();
+			
+			conect.close();
+			return true;
+			
+		} catch (Exception e) {
+			System.out.println("Hubo un error y no pudimos ejecutar la consulta" +
+							e.getMessage());
+			return false;
+		}
+	}
+	
+	
 	
 	
 }
