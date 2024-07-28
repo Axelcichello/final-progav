@@ -84,13 +84,15 @@ public class RegistroEmpleado extends JFrame {
 				
 				if (em.ingresoEmpleado()) {
 					JOptionPane.showMessageDialog(null, "Ingreso permitido");
+					frame.setVisible(false);
+					VentanaOpcionesEmpleado voe = new VentanaOpcionesEmpleado(nombre);
+					voe.setVisible(true);
+					
 				} else {
-					JOptionPane.showMessageDialog(null, "Ingreso denegado");
+					JOptionPane.showMessageDialog(null, "Ingreso denegado, intentelo de nuevo");
 				}
 				
-//				frame.setVisible(false);
-//				VentanaBienvenida vs = new VentanaBienvenida();
-//				vs.setVisible(true);
+
 			}
 		});
 		

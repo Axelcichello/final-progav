@@ -67,22 +67,31 @@ public class Empleado extends Usuario{
 
 		public boolean ingresoEmpleado() {
 		    String consulta = "SELECT 1 FROM empleado WHERE nombre_empleado = ? AND password_empleado = ?";
+		    Connection conect = null;
+		    PreparedStatement stmt = null;
+		    ResultSet rs = null;
 		    
-		    try (Connection conect = new Conexion().conectar();
-		         PreparedStatement stmt = conect.prepareStatement(consulta)) {
-
+		    
+		    try {
+		    	conect = new Conexion().conectar();
+		    	stmt = conect.prepareStatement(consulta);
 		        stmt.setString(1, super.getNombre());
 		        stmt.setString(2, this.password);
 		        
-		        //System.out.println("Consultando con nombre: " + super.getNombre() + " y password: " + this.password);
-
-		        try (ResultSet rs = stmt.executeQuery()) {
-		            return rs.next(); // Retorna true si hay un resultado, false en caso contrario
-		        }
+		        rs = stmt.executeQuery();
+		        return rs.next();
 		    } catch (SQLException e) {
 		        System.out.println("Hubo un error y no pudimos ejecutar la consulta: " + e.getMessage());
 		        return false;
-		    }
+		    } finally {
+		    	try {
+		            if (rs != null) rs.close();
+		            if (stmt != null) stmt.close();
+		            if (conect != null) conect.close();
+		        } catch (SQLException e) {
+		            System.out.println("Error al cerrar los recursos: " + e.getMessage());
+		        }
+			}
 		}
 
 
