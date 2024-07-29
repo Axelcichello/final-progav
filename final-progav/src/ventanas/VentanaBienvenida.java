@@ -81,8 +81,8 @@ public class VentanaBienvenida extends JFrame {
 		btnVen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				RegistroCliente rc = new RegistroCliente();
-				rc.setVisible(true);
+				RegistroEmpleado re = new RegistroEmpleado();
+				re.setVisible(true);
 			}
 		});
 		btnVen.setFont(new Font("Tahoma", Font.BOLD, 17));

@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import clases.Producto;
+import clases.Venta;
 
 import javax.swing.JScrollPane;
 
@@ -175,7 +176,8 @@ public class VentanaProductos extends JFrame {
 	                // Aquí puedes manejar lo que deseas hacer con el producto seleccionado
 	                Producto productoSeleccionado = productos.get(row);
 	                if (isSelected) {
-	                    System.out.println("Producto seleccionado: " + productoSeleccionado);
+	                    System.out.println("Producto seleccionado: " + productoSeleccionado.getNombre());
+	                    
 	                } else {
 	                    System.out.println("Ningún producto seleccionado");
 	                }

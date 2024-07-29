@@ -94,7 +94,11 @@ public class RegistroEmpleado extends JFrame {
 					return;
 			    }
 				
-				if (em.ingresoEmpleado()) {
+			    if (em.esCajero()) {
+					frame.setVisible(false);
+					RegistroCliente rc = new RegistroCliente();
+					rc.setVisible(true);
+				} else if (em.ingresoEmpleado()) {
 					JOptionPane.showMessageDialog(null, "Ingreso permitido");
 					frame.setVisible(false);
 					VentanaOpcionesEmpleado voe = new VentanaOpcionesEmpleado(nombre);

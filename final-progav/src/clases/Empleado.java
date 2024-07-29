@@ -95,7 +95,36 @@ public class Empleado extends Usuario{
 		}
 
 
-
+		public boolean esCajero() {
+		    String consulta = "SELECT 1 FROM empleado WHERE nombre_empleado = ? AND password_empleado = ? AND cargo_empleado = 2";
+		    Connection conect = null;
+		    PreparedStatement stmt = null;
+		    ResultSet rs = null;
+		    
+		    
+		    try {
+		    	conect = new Conexion().conectar();
+		    	stmt = conect.prepareStatement(consulta);
+		        stmt.setString(1, super.getNombre());
+		        stmt.setString(2, this.password);
+		        
+		        rs = stmt.executeQuery();
+		        return rs.next();
+		    } catch (SQLException e) {
+		        System.out.println("Hubo un error y no pudimos ejecutar la consulta: " + e.getMessage());
+		        return false;
+		    } finally {
+		    	try {
+		            if (rs != null) rs.close();
+		            if (stmt != null) stmt.close();
+		            if (conect != null) conect.close();
+		        } catch (SQLException e) {
+		            System.out.println("Error al cerrar los recursos: " + e.getMessage());
+		        }
+			}
+			
+			
+		}
 		
 
 
