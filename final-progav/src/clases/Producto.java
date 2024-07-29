@@ -119,6 +119,8 @@ public class Producto {
 	}
 
 	
+/////////////////////////////////////////////// METODO MostrarProductos \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	
 	public static List<Producto> mostrarProductos(){
 		List<Producto> productos = new ArrayList();
 		String consulta = "SELECT * FROM producto";
@@ -150,6 +152,8 @@ public class Producto {
 	}
 	
 
+	/////////////////////////////////////////////// METODO ActualizarSTOCK \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	
 	public static boolean actualizarStock(String nombre, int nuevoStock) {
 		String consulta = "UPDATE producto SET stock_producto = ? WHERE nombre_producto = ?";
 		Connection conect = null;
@@ -185,7 +189,34 @@ public class Producto {
         }
 	}
 
-
+	
+	public static Producto buscarPorNombre(String nombre) {
+		Producto pr = new Producto();
+		String consulta = "SELECT * FROM producto WHERE nombre_producto = ?";
+		Connection conect = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+	    	conect = new Conexion().conectar();
+	    	stmt = conect.prepareStatement(consulta);
+	    	stmt.setString(1, nombre);
+	    	rs = stmt.executeQuery();
+			
+	    	if (rs.next()) {
+	    		rs.getString("nombre_producto");
+	    		return pr;
+			} else {
+				JOptionPane.showMessageDialog(null, "Producto no encontrado", "Información", JOptionPane.INFORMATION_MESSAGE);
+                return null;
+			}
+		
+		} catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Producto NO encontrado", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+		return null;
+	}
 	
 	
 	

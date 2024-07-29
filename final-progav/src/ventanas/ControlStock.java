@@ -14,6 +14,7 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import clases.Globales;
 import clases.Producto;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -78,15 +79,33 @@ public class ControlStock extends JFrame {
         JButton btnNewButton = new JButton("Actualizar Stock");
         btnNewButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		String nombre = JOptionPane.showInputDialog(null, "Ingrese el nombre del producto");
-        		int stock = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese el nuevo stock"));
         		
-        		
-        		if (Producto.actualizarStock(nombre, stock)) {
-					JOptionPane.showMessageDialog(null, "Actualización con éxito");
-				} else {
-					JOptionPane.showMessageDialog(null, "No se pudo actualizar, chequee los datos");
+        		try {
+        			String nombre = JOptionPane.showInputDialog(null, "Ingrese el nombre del producto");
+        			
+        			if (!Globales.esAlfanumerico(nombre)) {
+    					JOptionPane.showMessageDialog(null, "El nombre debe contener solo letras y números");
+    					return;
+    			    }
+        			
+        			Producto pr = Producto.buscarPorNombre(nombre);
+        			
+        			if (pr == null) {
+						return;
+					}
+
+            		int stock = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese el nuevo stock"));
+            		
+            		if (Producto.actualizarStock(nombre, stock)) {
+    					JOptionPane.showMessageDialog(null, "Actualización con éxito");
+    					cargarProductos();
+    				} else {
+    					JOptionPane.showMessageDialog(null, "No se pudo actualizar, chequee los datos");
+    				}
+				} catch (Exception e2) {
+					// TODO: handle exception
 				}
+        		
         		
         	}
         });
@@ -123,6 +142,20 @@ public class ControlStock extends JFrame {
 			});
 		}
     	 tabla.setModel(model);
-    	 
-     }
+    }
+     
+// 	public static boolean esAlfanumerico(String input) {
+//	    return input != null && input.matches("[a-zA-Z0-9 ]+");
+//	}
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
 }

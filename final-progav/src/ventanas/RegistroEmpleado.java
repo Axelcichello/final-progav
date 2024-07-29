@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import clases.Empleado;
+import clases.Globales;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -82,6 +83,17 @@ public class RegistroEmpleado extends JFrame {
 				String password = passwordField.getText();
 				Empleado em = new Empleado(nombre, password);
 				
+				
+			    if (!Globales.esSoloLetras(nombre)) {
+			        JOptionPane.showMessageDialog(null, "El nombre debe contener solo letras", "Error de validación", JOptionPane.ERROR_MESSAGE);
+			        return;
+			    }
+			    
+			    if (!Globales.esAlfanumerico(password)) {
+					JOptionPane.showMessageDialog(null, "El password debe contener solo letras y números", "Error de validación", JOptionPane.ERROR_MESSAGE);
+					return;
+			    }
+				
 				if (em.ingresoEmpleado()) {
 					JOptionPane.showMessageDialog(null, "Ingreso permitido");
 					frame.setVisible(false);
@@ -111,4 +123,16 @@ public class RegistroEmpleado extends JFrame {
 		passwordField.setBounds(189, 248, 438, 32);
 		panel.add(passwordField);
 	}
+	
+	
+//	public static boolean esSoloLetras(String input) {
+//	    return input != null && input.matches("[a-zA-Z]+");
+//	}
+//	
+//	public static boolean esAlfanumerico(String input) {
+//	    return input != null && input.matches("[a-zA-Z0-9]+");
+//	}
+	
+	
+	
 }

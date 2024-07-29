@@ -94,4 +94,19 @@ public class Venta {
 		return "Venta [id=" + id + ", cajero=" + cajero + ", fecha=" + fecha + ", hora=" + hora + ", cliente=" + cliente
 				+ ", total_venta=" + total_venta + "]";
 	}
+	
+	public void generarTicket() {
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
