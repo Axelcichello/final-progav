@@ -1,15 +1,26 @@
 package ventanas;
 
+
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.GraphicsConfiguration;
+import java.util.List;
 
+import javax.swing.ButtonGroup;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.border.EmptyBorder;
-
+import javax.swing.event.TableModelEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+
+import clases.Producto;
 
 import javax.swing.JScrollPane;
 
@@ -19,7 +30,8 @@ public class VentanaProductos extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable tablaProductos;
-
+	private static String nombre;
+	static VentanaProductos frame = new VentanaProductos(nombre);
 
 	/**
 	 * Launch the application.
@@ -28,7 +40,7 @@ public class VentanaProductos extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaProductos frame = new VentanaProductos();
+					
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,17 +52,16 @@ public class VentanaProductos extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaProductos() {
+	public VentanaProductos(String nombre) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 854, 586);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 10, 820, 529);
+		panel.setBounds(25, 10, 805, 513);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -59,41 +70,117 @@ public class VentanaProductos extends JFrame {
 		lblNewLabel.setBounds(258, 27, 275, 39);
 		panel.add(lblNewLabel);
 		
+		
+        JLabel lblNewLabel_1 = new JLabel("Bienvenido:");
+        lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 18));
+        lblNewLabel_1.setBounds(91, 105, 116, 24);
+        panel.add(lblNewLabel_1);
+		
+        JLabel lblNewLabel_2 = new JLabel();
+        lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 18));
+        lblNewLabel_2.setBounds(225, 105, 413, 24);
+        panel.add(lblNewLabel_2);
+        lblNewLabel_2.setText(nombre);
+		
+		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(75, 136, 608, 186);
+		scrollPane.setBounds(75, 215, 608, 186);
 		panel.add(scrollPane);
 		
 		tablaProductos = new JTable();
-		 tablaProductos.setModel(new DefaultTableModel(
-		            new Object[][] {
-		                {null, Boolean.FALSE},
-		                {null, Boolean.FALSE},
-		                {null, Boolean.FALSE},
-		                {null, Boolean.FALSE},
-		                {null, Boolean.FALSE},
-		                {null, Boolean.FALSE},
-		                {null, Boolean.FALSE},
-		                {null, Boolean.FALSE},
-		                {null, Boolean.FALSE},
-		                {null, Boolean.FALSE},
-		            },
-		            new String[] {
-		                "Productos", "Seleccion"
-		            }
-		) {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-			Class[] columnTypes = new Class[] {
-				Object.class, Boolean.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
 		scrollPane.setViewportView(tablaProductos);
-
 		
+		JLabel lblNewLabel1 = new JLabel("Seleccionar el producto a comprar:");
+		lblNewLabel1.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblNewLabel1.setBounds(91, 170, 291, 24);
+		panel.add(lblNewLabel1);
+		
+		cargarProductos();
+	}		
+			
+	
+	private void cargarProductos() {
+	    List<Producto> productos = Producto.mostrarProductos();
+	    
+	    DefaultTableModel model = new DefaultTableModel() {
+	        @Override
+	        public boolean isCellEditable(int row, int column) {
+	            // Hacer editable solo la columna "Seleccionar"
+	            return column == 3;
+	        }
+
+	        @Override
+	        public Class<?> getColumnClass(int columnIndex) {
+	            // Necesario para que funcione el JRadioButton
+	            if (columnIndex == 3) {
+	                return Boolean.class;
+	            }
+	            return super.getColumnClass(columnIndex);
+	        }
+	    };
+	    
+	    model.addColumn("Nombre");
+	    model.addColumn("Precio");
+	    model.addColumn("Descripción");
+	    model.addColumn("Seleccionar");
+	    
+	    for (Producto producto : productos) {
+	        model.addRow(new Object[]{
+	                producto.getNombre(),
+	                producto.getPrecio(),
+	                producto.getDescripcion(),
+	                false // Inicialmente, el JRadioButton está desmarcado
+	        });
+	    }
+	    
+	    tablaProductos.setModel(model);
+	    
+	    // Configurar el renderizador para la columna de selección
+	    tablaProductos.getColumnModel().getColumn(3).setCellRenderer(new TableCellRenderer() {
+	        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+	            JCheckBox checkBox = new JCheckBox();
+	            checkBox.setSelected((boolean)value);
+	            checkBox.setHorizontalAlignment(JCheckBox.CENTER);
+	            if (isSelected) {
+	                checkBox.setBackground(table.getSelectionBackground());
+	            } else {
+	                checkBox.setBackground(table.getBackground());
+	            }
+	            return checkBox;
+	        }
+	    });
+	    
+	    // Configurar el editor para la columna de selección
+	    JCheckBox checkBox = new JCheckBox();
+	    DefaultCellEditor editor = new DefaultCellEditor(checkBox);
+	    tablaProductos.getColumnModel().getColumn(3).setCellEditor(editor);
+	    
+	    // ButtonGroup para asegurar que solo un producto pueda ser seleccionado a la vez
+	    ButtonGroup buttonGroup = new ButtonGroup();
+
+	    // Agregar TableModelListener para manejar la selección de productos
+	    model.addTableModelListener(e -> {
+	        if (e.getType() == TableModelEvent.UPDATE) {
+	            int row = e.getFirstRow();
+	            int column = e.getColumn();
+	            if (column == 3) {
+	                Boolean isSelected = (Boolean) model.getValueAt(row, column);
+	                if (isSelected) {
+	                    for (int i = 0; i < model.getRowCount(); i++) {
+	                        if (i != row && (Boolean) model.getValueAt(i, column)) {
+	                            model.setValueAt(false, i, column);
+	                        }
+	                    }
+	                }
+	                // Aquí puedes manejar lo que deseas hacer con el producto seleccionado
+	                Producto productoSeleccionado = productos.get(row);
+	                if (isSelected) {
+	                    System.out.println("Producto seleccionado: " + productoSeleccionado);
+	                } else {
+	                    System.out.println("Ningún producto seleccionado");
+	                }
+	            }
+	        }
+	    });
 	}
 }

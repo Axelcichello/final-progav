@@ -27,7 +27,7 @@ public class RegistroCliente extends JFrame {
 	private JLabel lblNewLabel_1;
 	private JLabel lblNombre;
 	private JButton btnConfirmar;
-
+	static RegistroCliente frame = new RegistroCliente();
 	/**
 	 * Launch the application.
 	 */
@@ -35,7 +35,7 @@ public class RegistroCliente extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RegistroCliente frame = new RegistroCliente();
+					
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -115,6 +115,9 @@ public class RegistroCliente extends JFrame {
 				Cliente cl = new Cliente(nombre, apellido, telefono);
 				if (cl.guardarCliente()) {
 					JOptionPane.showMessageDialog(null, "Se guardo el cliente en la base de datos");
+					frame.setVisible(false);
+					VentanaProductos vp = new VentanaProductos(nombre);
+					vp.setVisible(true);
 				} else {
 					JOptionPane.showMessageDialog(null, "No se guardo el cliente en la base de datos");
 
