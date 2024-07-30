@@ -16,7 +16,9 @@ public class Globales {
 	}
 	
 	
-	
+	public static boolean esNumeroEnteroPositivo(int numero) {
+	    return numero > 0; // Verifica si el número es positivo
+	}
 	
 	
 	

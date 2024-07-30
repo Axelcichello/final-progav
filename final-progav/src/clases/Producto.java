@@ -16,25 +16,29 @@ public class Producto {
 	private int id;
 	private String nombre;
 	private double precio;
-	private double descuento;
-	//private String tipoPago;
 	private int stock;
 	private String descripcion;
 	
-	
 	public Producto() {
-		super();
+	
+	}
+	
+	public Producto(String nombre, double precio, int stock,
+			String descripcion) {
+		this.nombre = nombre;
+		this.precio = precio;
+		this.stock = stock;
+		this.descripcion = descripcion;
 	}
 
 	
 	
-	public Producto(String nombre, double precio, double descuento, int stock,
+	public Producto(int id, String nombre, double precio, int stock,
 			String descripcion) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.precio = precio;
-		this.descuento = descuento;
 		this.stock = stock;
 		this.descripcion = descripcion;
 	}
@@ -77,16 +81,6 @@ public class Producto {
 
 
 
-	public double getDescuento() {
-		return descuento;
-	}
-
-
-
-	public void setDescuento(double descuento) {
-		this.descuento = descuento;
-	}
-
 
 	public int getStock() {
 		return stock;
@@ -114,8 +108,7 @@ public class Producto {
 
 	@Override
 	public String toString() {
-		return "Producto [id=" + id + ", nombre=" + nombre + ", precio=" + precio + ", descuento=" + descuento
-				+ ", stock=" + stock + ", descripcion=" + descripcion + "]";
+		return "Producto [id=" + id + ", nombre=" + nombre + ", precio=" + precio + ", stock=" + stock + ", descripcion=" + descripcion + "]";
 	}
 
 	
@@ -135,11 +128,11 @@ public class Producto {
 			
 			while (rs.next()) {
 				productos.add(new Producto(
+					rs.getInt("id_producto"),
 					rs.getString("nombre_producto"),
 					rs.getDouble("precio_producto"),
-					rs.getDouble("descuento_producto"),
 					rs.getInt("stock_producto"),
-					rs.getString("descripcion_producto")
+					rs.getString("descripcion_producto")	
 					));
 			}
 	    	
@@ -154,8 +147,8 @@ public class Producto {
 
 	/////////////////////////////////////////////// METODO ActualizarSTOCK \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
-	public static boolean actualizarStock(String nombre, int nuevoStock) {
-		String consulta = "UPDATE producto SET stock_producto = ? WHERE nombre_producto = ?";
+	public static boolean actualizarStock(int id, int nuevoStock) {
+		String consulta = "UPDATE producto SET stock_producto = ? WHERE id_producto = ?";
 		Connection conect = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -164,7 +157,7 @@ public class Producto {
 			conect = new Conexion().conectar();
 	    	stmt = conect.prepareStatement(consulta);
 			stmt.setInt(1, nuevoStock);
-			stmt.setString(2, nombre);
+			stmt.setInt(2, id);
 			
 			if (stmt.executeUpdate() > 0) {
 				JOptionPane.showMessageDialog(null, "Se modifico el stock");
@@ -219,6 +212,34 @@ public class Producto {
 	}
 	
 	
+	
+	public static boolean buscarPorId(int id) {
+		Producto pr = new Producto();
+		String consulta = "SELECT * FROM producto WHERE id_producto = ?";
+		Connection conect = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+	    	conect = new Conexion().conectar();
+	    	stmt = conect.prepareStatement(consulta);
+	    	stmt.setInt(1, id);
+	    	rs = stmt.executeQuery();
+			
+	    	if (rs.next()) {
+	    		rs.getString("nombre_producto");
+	    		return true;
+			} else {
+				JOptionPane.showMessageDialog(null, "Producto no encontrado", "Información", JOptionPane.INFORMATION_MESSAGE);
+                return false;
+			}
+		
+		} catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Producto NO encontrado", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+		return false;
+	}
 	
 	
 	

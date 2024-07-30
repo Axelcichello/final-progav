@@ -17,6 +17,8 @@ import javax.swing.table.DefaultTableModel;
 import clases.Globales;
 import clases.Producto;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
@@ -26,6 +28,7 @@ public class ControlStock extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable tabla;
+	 private JComboBox<String> comboBoxProductos;
 
 	/**
 	 * Launch the application.
@@ -70,7 +73,7 @@ public class ControlStock extends JFrame {
         panel.add(lblNewLabel_1);
         
         JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(91, 150, 600, 300);
+        scrollPane.setBounds(91, 189, 600, 300);
         panel.add(scrollPane);
         
         tabla = new JTable();
@@ -81,29 +84,33 @@ public class ControlStock extends JFrame {
         	public void actionPerformed(ActionEvent e) {
         		
         		try {
-        			String nombre = JOptionPane.showInputDialog(null, "Ingrese el nombre del producto");
-        			
-        			if (!Globales.esAlfanumerico(nombre)) {
-    					JOptionPane.showMessageDialog(null, "El nombre debe contener solo letras y números");
-    					return;
-    			    }
-        			
-        			Producto pr = Producto.buscarPorNombre(nombre);
-        			
-        			if (pr == null) {
-						return;
-					}
 
+        			int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese el Id del producto"));
+        			if (!Globales.esNumeroEnteroPositivo(id)) {
+            		    JOptionPane.showMessageDialog(null, "El id debe ser mayor a 0.");
+            		    return;
+            		}
+        			
+        			if (!Producto.buscarPorId(id)) {
+        				return;
+					}
+        			
             		int stock = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese el nuevo stock"));
+            		if (!Globales.esNumeroEnteroPositivo(stock)) {
+            		    JOptionPane.showMessageDialog(null, "El número debe ser mayor a 0.");
+            		    return;
+            		}
             		
-            		if (Producto.actualizarStock(nombre, stock)) {
+            		if (Producto.actualizarStock(id, stock)) {
     					JOptionPane.showMessageDialog(null, "Actualización con éxito");
     					cargarProductos();
     				} else {
     					JOptionPane.showMessageDialog(null, "No se pudo actualizar, chequee los datos");
     				}
-				} catch (Exception e2) {
-					// TODO: handle exception
+				}  catch (NumberFormatException ex) {
+				    JOptionPane.showMessageDialog(null, "El stock debe ser un número entero válido.");
+				} catch (Exception ex) {
+				    JOptionPane.showMessageDialog(null, "Ocurrió un error inesperado: " + ex.getMessage());
 				}
         		
         		
@@ -116,27 +123,24 @@ public class ControlStock extends JFrame {
         cargarProductos();
         
      }   
+
 	
 	
-	
-	
-	
-        
      private void cargarProductos() {
     	 List<Producto> productos = Producto.mostrarProductos();
     	 
     	 DefaultTableModel model = new DefaultTableModel();
+    	 model.addColumn("ID");
     	 model.addColumn("Nombre");
     	 model.addColumn("Precio");
-    	 model.addColumn("Descuento");
     	 model.addColumn("Stock");
     	 model.addColumn("Descripción");
     	 
     	 for (Producto producto : productos) {
 			model.addRow(new Object[]{
+					producto.getId(),
 					producto.getNombre(),
 					producto.getPrecio(),
-					producto.getDescuento(),
 					producto.getStock(),
 					producto.getDescripcion()			
 			});
@@ -144,9 +148,7 @@ public class ControlStock extends JFrame {
     	 tabla.setModel(model);
     }
      
-// 	public static boolean esAlfanumerico(String input) {
-//	    return input != null && input.matches("[a-zA-Z0-9 ]+");
-//	}
+
      
      
      
