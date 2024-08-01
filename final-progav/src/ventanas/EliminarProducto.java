@@ -2,8 +2,11 @@ package ventanas;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -15,26 +18,21 @@ import javax.swing.table.DefaultTableModel;
 
 import clases.Globales;
 import clases.Producto;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
-public class ControlStock extends JFrame {
+public class EliminarProducto extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	//private String nombreUsuario;
 	private JPanel contentPane;
 	private JTable tabla;
 	private int idEmpleado;
-	
-		/**
+	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ControlStock frame = new ControlStock(0);
+					EliminarProducto frame = new EliminarProducto(78);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -46,7 +44,7 @@ public class ControlStock extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ControlStock(int id) {
+	public EliminarProducto(int id) {
 		idEmpleado = id;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 854, 586);
@@ -60,9 +58,9 @@ public class ControlStock extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("CONTROL DE STOCK");
+		JLabel lblNewLabel = new JLabel("ELIMINAR PRODUCTO");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel.setBounds(91, 32, 211, 39);
+		lblNewLabel.setBounds(91, 32, 241, 39);
 		panel.add(lblNewLabel);
 		
         JLabel lblNewLabel_b = new JLabel("ID Usuario:");
@@ -88,7 +86,7 @@ public class ControlStock extends JFrame {
         tabla = new JTable();
         scrollPane.setViewportView(tabla);
         
-        JButton btnNewButton = new JButton("Actualizar Stock");
+        JButton btnNewButton = new JButton("Eliminar Producto");
         btnNewButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
@@ -102,20 +100,16 @@ public class ControlStock extends JFrame {
         			
         			if (!Producto.buscarPorId(id)) {
         				return;
+					} else {
+						cargarUnProducto(id);
 					}
         			
-            		int stock = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese el nuevo stock"));
-            		if (!Globales.esNumeroEntero(stock)) {
-            		    JOptionPane.showMessageDialog(null, "El número no puede ser negativo.");
-            		    return;
-            		}
-            		
-            		if (Producto.actualizarStock(id, stock)) {
-    					JOptionPane.showMessageDialog(null, "Actualización con éxito");
-    					cargarProductos();
-    				} else {
-    					JOptionPane.showMessageDialog(null, "No se pudo actualizar, chequee los datos");
-    				}
+        			if (Producto.eliminarProducto(id)) {
+						JOptionPane.showMessageDialog(null, "El producto se elimino con éxtio");
+						cargarProductos();
+					}
+        			
+        			
 				}  catch (NumberFormatException ex) {
 				    JOptionPane.showMessageDialog(null, "El stock debe ser un número válido.");
 				} catch (Exception ex) {
@@ -157,16 +151,24 @@ public class ControlStock extends JFrame {
     	 tabla.setModel(model);
     }
      
+     private void cargarUnProducto(int id) {
+    	 Producto producto = Producto.mostrarUnProducto(id);
+    	 
+    	 if(producto != null) {
+    		 
+    		 String mensaje =	"ID: " + producto.getId() + "\n" +
+    				 			"Nombre: " + producto.getNombre() + "\n" +
+    				 			"Precio: " + producto.getPrecio() + "\n" + 
+    				 			"Stock: " + producto.getStock() + "\n" + 
+    				 			"Descripcion: " + producto.getDescripcion();
+     		 
+			
+			JOptionPane.showMessageDialog(null, mensaje, "¿Desea eliminar el producto?", JOptionPane.ERROR_MESSAGE);
+    } else {
+        JOptionPane.showMessageDialog(null, "El producto no se encontró.", "Error", JOptionPane.ERROR_MESSAGE);
 
+    	}
+     }
      
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
+
 }

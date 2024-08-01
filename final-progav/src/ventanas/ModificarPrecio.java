@@ -2,8 +2,11 @@ package ventanas;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -15,26 +18,21 @@ import javax.swing.table.DefaultTableModel;
 
 import clases.Globales;
 import clases.Producto;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
-public class ControlStock extends JFrame {
+public class ModificarPrecio extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	//private String nombreUsuario;
 	private JPanel contentPane;
 	private JTable tabla;
 	private int idEmpleado;
-	
-		/**
+	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ControlStock frame = new ControlStock(0);
+					ModificarPrecio frame = new ModificarPrecio(78);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -46,7 +44,7 @@ public class ControlStock extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ControlStock(int id) {
+	public ModificarPrecio(int id) {
 		idEmpleado = id;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 854, 586);
@@ -60,7 +58,7 @@ public class ControlStock extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("CONTROL DE STOCK");
+		JLabel lblNewLabel = new JLabel("MODIFICAR PRECIO");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblNewLabel.setBounds(91, 32, 211, 39);
 		panel.add(lblNewLabel);
@@ -88,7 +86,7 @@ public class ControlStock extends JFrame {
         tabla = new JTable();
         scrollPane.setViewportView(tabla);
         
-        JButton btnNewButton = new JButton("Actualizar Stock");
+        JButton btnNewButton = new JButton("ACTUALIZAR PRECIO");
         btnNewButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
@@ -104,20 +102,20 @@ public class ControlStock extends JFrame {
         				return;
 					}
         			
-            		int stock = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese el nuevo stock"));
-            		if (!Globales.esNumeroEntero(stock)) {
+            		int precio = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese el nuevo precio"));
+            		if (!Globales.esDouble(precio)) {
             		    JOptionPane.showMessageDialog(null, "El número no puede ser negativo.");
             		    return;
             		}
             		
-            		if (Producto.actualizarStock(id, stock)) {
+            		if (Producto.actualizarPrecio(id, precio)) {
     					JOptionPane.showMessageDialog(null, "Actualización con éxito");
     					cargarProductos();
     				} else {
     					JOptionPane.showMessageDialog(null, "No se pudo actualizar, chequee los datos");
     				}
 				}  catch (NumberFormatException ex) {
-				    JOptionPane.showMessageDialog(null, "El stock debe ser un número válido.");
+				    JOptionPane.showMessageDialog(null, "El precio debe ser un número válido.");
 				} catch (Exception ex) {
 				    JOptionPane.showMessageDialog(null, "Ocurrió un error inesperado: " + ex.getMessage());
 				}
@@ -126,7 +124,7 @@ public class ControlStock extends JFrame {
         	}
         });
         btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 17));
-        btnNewButton.setBounds(558, 132, 191, 39);
+        btnNewButton.setBounds(524, 132, 225, 39);
         panel.add(btnNewButton);
         
         cargarProductos();
@@ -156,17 +154,6 @@ public class ControlStock extends JFrame {
 		}
     	 tabla.setModel(model);
     }
-     
+	
 
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
 }

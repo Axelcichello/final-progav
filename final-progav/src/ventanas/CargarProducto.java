@@ -32,18 +32,18 @@ public class CargarProducto extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					CargarProducto frame = new CargarProducto();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					CargarProducto frame = new CargarProducto(78);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
 	/**
 	 * Create the frame.
@@ -69,12 +69,12 @@ public class CargarProducto extends JFrame {
 		
         JLabel lblNewLabel_b = new JLabel("ID Usuario:");
         lblNewLabel_b.setFont(new Font("Tahoma", Font.BOLD, 18));
-        lblNewLabel_b.setBounds(524, 40, 116, 24);
+        lblNewLabel_b.setBounds(517, 40, 116, 24);
         panel.add(lblNewLabel_b);
         
         JLabel lblNewLabel_2 = new JLabel();
         lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblNewLabel_2.setBounds(620, 41, 129, 24);
+        lblNewLabel_2.setBounds(635, 41, 27, 24);
         panel.add(lblNewLabel_2);
         lblNewLabel_2.setText(String.valueOf(id));
 	    
@@ -165,8 +165,9 @@ public class CargarProducto extends JFrame {
 		    		if(pro.guardarProducto()) {
 		    			JOptionPane.showMessageDialog(null, "Producto registrado con éxito");
 		    			setVisible(false);
-		    			VentanaOpcionesEmpleado voe = new VentanaOpcionesEmpleado(idEmpleado);
-		    			voe.setVisible(true);
+		    			new CargarProducto(idEmpleado).setVisible(true);;
+//		    			VentanaOpcionesEmpleado voe = new VentanaOpcionesEmpleado(idEmpleado);
+//		    			voe.setVisible(true);
 		    		} else {
 		    			JOptionPane.showMessageDialog(null, "No se pudo registrar el producto");
 		    		}

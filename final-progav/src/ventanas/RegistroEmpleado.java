@@ -111,7 +111,7 @@ public class RegistroEmpleado extends JFrame {
 					RegistroCliente rc = new RegistroCliente();
 					rc.setVisible(true);
 				} else if (seccionSeleccionada.equals("ADMINISTRACION") && em.esAdmin()) {
-					JOptionPane.showMessageDialog(null, "Ingreso permitido");
+					JOptionPane.showMessageDialog(null, "Ingreso permitido","Inicio de sesión", JOptionPane.INFORMATION_MESSAGE);
 					int idEmpleado = em.obtenerIdEmpleado(nombre, password);
 					//System.out.println(em.obtenerIdEmpleado(nombre, password)); 
 					setVisible(false);
@@ -119,7 +119,7 @@ public class RegistroEmpleado extends JFrame {
 					voe.setVisible(true);
 					
 				} else {
-					JOptionPane.showMessageDialog(null, "Ingreso denegado, intentelo de nuevo");
+					JOptionPane.showMessageDialog(null, "Ingreso denegado, intentelo de nuevo","Acceso denegado", JOptionPane.ERROR_MESSAGE);
 					}
 				
 

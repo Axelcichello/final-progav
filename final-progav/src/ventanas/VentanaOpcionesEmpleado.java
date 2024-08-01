@@ -134,10 +134,10 @@ public class VentanaOpcionesEmpleado extends JFrame {
                     new CargarProducto(idEmpleado).setVisible(true);
                     break;
                 case 3:
-                    //new VentanaOpcion3().setVisible(true);
+                    new EliminarProducto(idEmpleado).setVisible(true);
                     break;
                 case 4:
-                    //new VentanaOpcion4().setVisible(true);
+                    new ModificarPrecio(idEmpleado).setVisible(true);
                     break;
                 case 5:
                    // new VentanaOpcion5().setVisible(true);

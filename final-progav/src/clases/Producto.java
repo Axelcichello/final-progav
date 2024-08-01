@@ -272,10 +272,109 @@ public class Producto {
 	}
 	
 	
+/////////////////////////////////////////////// METODO ACTUALIZAR precio \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	
+	public static boolean actualizarPrecio(int id, double nuevoPrecio) {
+		String consulta = "UPDATE producto SET precio_producto = ? WHERE id_producto = ?";
+		Connection conect = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			conect = new Conexion().conectar();
+			stmt = conect.prepareStatement(consulta);
+			stmt.setDouble(1, nuevoPrecio);
+			stmt.setInt(2, id);
+
+			if (stmt.executeUpdate() > 0) {
+				JOptionPane.showMessageDialog(null, "Se modifico el precio");
+				return true;
+			} else {
+				System.out.println("No se puedo realizar ninguna modificacion");
+				return false;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error al actualizar el precio", "Error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (stmt != null)
+					stmt.close();
+				if (conect != null)
+					conect.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	
+	public static Producto mostrarUnProducto(int id) {
+	    Producto pr = null; // Inicializamos pr como null
+	    String consulta = "SELECT * FROM producto WHERE id_producto = ?";
+	    Connection conect = null;
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;
+
+	    try {
+	        conect = new Conexion().conectar();
+	        stmt = conect.prepareStatement(consulta);
+	        stmt.setInt(1, id);
+	        rs = stmt.executeQuery();
+
+	        if (rs.next()) { // Si hay resultados, tomamos el primero
+	            pr = new Producto(
+	                rs.getInt("id_producto"),
+	                rs.getString("nombre_producto"),
+	                rs.getDouble("precio_producto"),
+	                rs.getInt("stock_producto"),
+	                rs.getString("descripcion_producto")
+	            );
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        JOptionPane.showMessageDialog(null, "Error al cargar el producto", "Error", JOptionPane.ERROR_MESSAGE);
+	    } finally {
+	        // Asegúrate de cerrar los recursos en el bloque finally
+	        try {
+	            if (rs != null) rs.close();
+	            if (stmt != null) stmt.close();
+	            if (conect != null) conect.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    return pr;
+	}
+
 	
 	
+	public static boolean eliminarProducto(int id) {
+		Conexion con = new Conexion();
+		Connection conect = con.conectar();
+		
+		PreparedStatement stmt;
+		
+		String consulta = "DELETE FROM producto WHERE id_producto = ?";
+		
+		try {
+			stmt = conect.prepareStatement(consulta);
+			stmt.setInt(1, id);
+			stmt.executeUpdate();
+			
+			conect.close();
+			return true;
+			
+		} catch (Exception e) {
+			System.out.println("Hubo un error y no pudimos ejecutar la consulta" +
+							e.getMessage());
+			return false;
+		}
+	}
 	
 	
 	
