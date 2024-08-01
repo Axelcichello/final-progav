@@ -17,6 +17,7 @@ public class VentanaBienvenida extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	static VentanaBienvenida frame = new VentanaBienvenida();
+	private static String seccionSeleccionada;
 
 	/**
 	 * Launch the application.
@@ -59,40 +60,42 @@ public class VentanaBienvenida extends JFrame {
 		lblNewLabel.setBounds(258, 27, 275, 39);
 		panel.add(lblNewLabel);
 		
-		JLabel lblSeleccioneUnaOpcion = new JLabel("Bienvenidos ... ");
-		lblSeleccioneUnaOpcion.setFont(new Font("Tahoma", Font.ITALIC, 17));
-		lblSeleccioneUnaOpcion.setBounds(343, 124, 120, 39);
+		JLabel lblSeleccioneUnaOpcion = new JLabel("Bienvenidos ");
+		lblSeleccioneUnaOpcion.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblSeleccioneUnaOpcion.setBounds(317, 124, 142, 39);
 		panel.add(lblSeleccioneUnaOpcion);
 		
-		JButton btnNewButton = new JButton("Administracion");
+		JButton btnNewButton = new JButton("ADMINISTRACION");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				seccionSeleccionada = "ADMINISTRACION";
 				frame.setVisible(false);
-				RegistroEmpleado re = new RegistroEmpleado();
+				RegistroEmpleado re = new RegistroEmpleado(seccionSeleccionada);
 				re.setVisible(true);
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 17));
-		btnNewButton.setBounds(609, 441, 179, 63);
+		btnNewButton.setBounds(459, 277, 207, 63);
 		panel.add(btnNewButton);
 		
-		JButton btnVen = new JButton("REALIZAR COMPRA");
-		btnVen.setBackground(new Color(102, 153, 255));
-		btnVen.addActionListener(new ActionListener() {
+		JButton btnCompras = new JButton("COMPRAS");
+		btnCompras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				seccionSeleccionada = "COMPRAS";
 				frame.setVisible(false);
-				RegistroEmpleado re = new RegistroEmpleado();
+				RegistroEmpleado re = new RegistroEmpleado(seccionSeleccionada);
 				re.setVisible(true);
 			}
 		});
-		btnVen.setFont(new Font("Tahoma", Font.BOLD, 17));
-		btnVen.setBounds(258, 214, 275, 87);
-		panel.add(btnVen);
-		
-		
-		
-		
-		
+		btnCompras.setFont(new Font("Tahoma", Font.BOLD, 17));
+		btnCompras.setBounds(153, 277, 216, 58);
+		panel.add(btnCompras);
 	}
+	
+	public static String getSeccionSeleccionada() {
+		return seccionSeleccionada;
+	}
+	
+	
 
 }

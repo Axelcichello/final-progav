@@ -25,8 +25,10 @@ public class RegistroEmpleado extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField_UbtnIniciarSesion;
 	private JTextField textField_usuario;
-	static RegistroEmpleado frame = new RegistroEmpleado();
 	private JPasswordField passwordField;
+	private JTextField textField;
+	private static String seccionSeleccionada;
+	
 
 	/**
 	 * Launch the application.
@@ -35,6 +37,7 @@ public class RegistroEmpleado extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					RegistroEmpleado frame = new RegistroEmpleado(seccionSeleccionada);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -46,7 +49,8 @@ public class RegistroEmpleado extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public RegistroEmpleado() {
+	public RegistroEmpleado(String seccionSeleccionada) {
+		//seccionSeleccionada = seccionSeleccionada;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 854, 586);
 		contentPane = new JPanel();
@@ -81,8 +85,7 @@ public class RegistroEmpleado extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String nombre = textField_usuario.getText();
 				String password = passwordField.getText();
-				Empleado em = new Empleado(nombre, password);
-				
+
 				
 			    if (!Globales.esSoloLetras(nombre)) {
 			        JOptionPane.showMessageDialog(null, "El nombre debe contener solo letras", "Error de validación", JOptionPane.ERROR_MESSAGE);
@@ -93,27 +96,38 @@ public class RegistroEmpleado extends JFrame {
 					JOptionPane.showMessageDialog(null, "El password debe contener solo letras y números", "Error de validación", JOptionPane.ERROR_MESSAGE);
 					return;
 			    }
+			    
+
+				Empleado em = new Empleado(nombre, password);
 				
-			    if (em.esCajero()) {
-					frame.setVisible(false);
+				if (seccionSeleccionada.equals("COMPRAS") && em.esAdmin()) {
+                    JOptionPane.showMessageDialog(null, "No puedes acceder a la sección Compras como Administrador", "Acceso denegado", JOptionPane.ERROR_MESSAGE);
+                    return;
+				} else if (seccionSeleccionada.equals("ADMINISTRACION") && em.esCajero()) {
+                    JOptionPane.showMessageDialog(null, "No puedes acceder a la sección Administracion como Cajero", "Acceso denegado", JOptionPane.ERROR_MESSAGE);
+                    return;
+				} else if (seccionSeleccionada.equals("COMPRAS") && em.esCajero()) {
+					setVisible(false);
 					RegistroCliente rc = new RegistroCliente();
 					rc.setVisible(true);
-				} else if (em.ingresoEmpleado()) {
+				} else if (seccionSeleccionada.equals("ADMINISTRACION") && em.esAdmin()) {
 					JOptionPane.showMessageDialog(null, "Ingreso permitido");
-					frame.setVisible(false);
-					VentanaOpcionesEmpleado voe = new VentanaOpcionesEmpleado(nombre);
+					int idEmpleado = em.obtenerIdEmpleado(nombre, password);
+					//System.out.println(em.obtenerIdEmpleado(nombre, password)); 
+					setVisible(false);
+					VentanaOpcionesEmpleado voe = new VentanaOpcionesEmpleado(idEmpleado);
 					voe.setVisible(true);
 					
 				} else {
 					JOptionPane.showMessageDialog(null, "Ingreso denegado, intentelo de nuevo");
-				}
+					}
 				
 
 			}
 		});
 		
 		btnIniciarSesion.setFont(new Font("Tahoma", Font.BOLD, 20));
-		btnIniciarSesion.setBounds(307, 326, 187, 33);
+		btnIniciarSesion.setBounds(496, 434, 187, 33);
 		panel.add(btnIniciarSesion);
 		
 		textField_usuario = new JTextField();
@@ -126,17 +140,8 @@ public class RegistroEmpleado extends JFrame {
 		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		passwordField.setBounds(189, 248, 438, 32);
 		panel.add(passwordField);
+
+		
+
 	}
-	
-	
-//	public static boolean esSoloLetras(String input) {
-//	    return input != null && input.matches("[a-zA-Z]+");
-//	}
-//	
-//	public static boolean esAlfanumerico(String input) {
-//	    return input != null && input.matches("[a-zA-Z0-9]+");
-//	}
-	
-	
-	
 }

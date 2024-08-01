@@ -16,11 +16,13 @@ public class Globales {
 	}
 	
 	
-	public static boolean esNumeroEnteroPositivo(int numero) {
-	    return numero > 0; // Verifica si el número es positivo
+	public static boolean esNumeroEntero(int numero) {
+	    return numero >= 0; // Verifica si el número es positivo
 	}
 	
 	
-	
+	public static boolean esDouble(double numero) {
+	    return numero >= 0; // Verifica si el número es positivo
+	}
 	
 }

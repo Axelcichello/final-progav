@@ -17,6 +17,7 @@ public class Empleado extends Usuario{
 		public Empleado(String nombre, String password) {
 			 super(nombre, null, 0); 
 		        this.password = password;
+		        
 		}
 
 
@@ -65,8 +66,8 @@ public class Empleado extends Usuario{
 		}
 
 
-		public boolean ingresoEmpleado() {
-		    String consulta = "SELECT 1 FROM empleado WHERE nombre_empleado = ? AND password_empleado = ?";
+		public boolean esAdmin() {
+		    String consulta = "SELECT * FROM empleado WHERE nombre_empleado = ? AND password_empleado = ? AND cargo_empleado = 1";
 		    Connection conect = null;
 		    PreparedStatement stmt = null;
 		    ResultSet rs = null;
@@ -78,7 +79,9 @@ public class Empleado extends Usuario{
 		        stmt.setString(1, super.getNombre());
 		        stmt.setString(2, this.password);
 		        
-		        rs = stmt.executeQuery();
+		        //((ResultSet) stmt).getInt(super.getId());
+		        
+		        rs = stmt.executeQuery();	        
 		        return rs.next();
 		    } catch (SQLException e) {
 		        System.out.println("Hubo un error y no pudimos ejecutar la consulta: " + e.getMessage());
@@ -96,7 +99,7 @@ public class Empleado extends Usuario{
 
 
 		public boolean esCajero() {
-		    String consulta = "SELECT 1 FROM empleado WHERE nombre_empleado = ? AND password_empleado = ? AND cargo_empleado = 2";
+		    String consulta = "SELECT * FROM empleado WHERE nombre_empleado = ? AND password_empleado = ? AND cargo_empleado = 2";
 		    Connection conect = null;
 		    PreparedStatement stmt = null;
 		    ResultSet rs = null;
@@ -107,11 +110,12 @@ public class Empleado extends Usuario{
 		    	stmt = conect.prepareStatement(consulta);
 		        stmt.setString(1, super.getNombre());
 		        stmt.setString(2, this.password);
+		        //stmt.setInt(3, cargo);
 		        
 		        rs = stmt.executeQuery();
 		        return rs.next();
 		    } catch (SQLException e) {
-		        System.out.println("Hubo un error y no pudimos ejecutar la consulta: " + e.getMessage());
+		        System.out.println("No tiene permitido el acceso: " + e.getMessage());
 		        return false;
 		    } finally {
 		    	try {
@@ -121,13 +125,48 @@ public class Empleado extends Usuario{
 		        } catch (SQLException e) {
 		            System.out.println("Error al cerrar los recursos: " + e.getMessage());
 		        }
-			}
-			
-			
+			}	
 		}
 		
 
+		public int obtenerIdEmpleado(String nombre, String password) {
+		    String consulta = "SELECT id_empleado FROM empleado WHERE nombre_empleado = ? AND password_empleado = ?";
+		    Connection conect = null;
+		    PreparedStatement stmt = null;
+		    ResultSet rs = null;
+		    int idEmpleado = -1; // Valor predeterminado en caso de que no se encuentre el empleado
 
+		    try {
+		        // Establece la conexión a la base de datos
+		        conect = new Conexion().conectar();
+		        
+		        // Prepara la consulta SQL
+		        stmt = conect.prepareStatement(consulta);
+		        stmt.setString(1, nombre);
+		        stmt.setString(2, password);
+		        
+		        // Ejecuta la consulta
+		        rs = stmt.executeQuery();
+		        
+		        // Si hay resultados, obtiene el ID del empleado
+		        if (rs.next()) {
+		            idEmpleado = rs.getInt("id_empleado");
+		        }
+		    } catch (SQLException e) {
+		        System.out.println("Error al obtener el ID del empleado: " + e.getMessage());
+		    } finally {
+		        // Cierra los recursos
+		        try {
+		            if (rs != null) rs.close();
+		            if (stmt != null) stmt.close();
+		            if (conect != null) conect.close();
+		        } catch (SQLException e) {
+		            System.out.println("Error al cerrar los recursos: " + e.getMessage());
+		        }
+		    }
+
+		    return idEmpleado;
+		}
 
 
 

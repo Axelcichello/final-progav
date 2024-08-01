@@ -112,7 +112,7 @@ public class Producto {
 	}
 
 	
-/////////////////////////////////////////////// METODO MostrarProductos \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+/////////////////////////////////////////////// METODO MOSTRAR PRODUCTOS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
 	public static List<Producto> mostrarProductos(){
 		List<Producto> productos = new ArrayList();
@@ -145,7 +145,7 @@ public class Producto {
 	}
 	
 
-	/////////////////////////////////////////////// METODO ActualizarSTOCK \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	/////////////////////////////////////////////// METODO ACTUALIZAR STOCK \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
 	public static boolean actualizarStock(int id, int nuevoStock) {
 		String consulta = "UPDATE producto SET stock_producto = ? WHERE id_producto = ?";
@@ -182,9 +182,10 @@ public class Producto {
         }
 	}
 
+/////////////////////////////////////////////// METODO BUSCAR POR NOMBRE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
-	public static Producto buscarPorNombre(String nombre) {
-		Producto pr = new Producto();
+	public static boolean buscarPorNombre(String nombre) {
+		//Producto pr = new Producto();
 		String consulta = "SELECT * FROM producto WHERE nombre_producto = ?";
 		Connection conect = null;
 		PreparedStatement stmt = null;
@@ -198,23 +199,24 @@ public class Producto {
 			
 	    	if (rs.next()) {
 	    		rs.getString("nombre_producto");
-	    		return pr;
+	    		return true;
 			} else {
-				JOptionPane.showMessageDialog(null, "Producto no encontrado", "Información", JOptionPane.INFORMATION_MESSAGE);
-                return null;
+				//JOptionPane.showMessageDialog(null, "Producto no encontrado", "Información", JOptionPane.INFORMATION_MESSAGE);
+                return false;
 			}
 		
 		} catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Producto NO encontrado", "Error", JOptionPane.ERROR_MESSAGE);
         }
-		return null;
+		return false;
 	}
 	
-	
+
+/////////////////////////////////////////////// METODO BUSCAR POR ID \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\	
 	
 	public static boolean buscarPorId(int id) {
-		Producto pr = new Producto();
+		//Producto pr = new Producto();
 		String consulta = "SELECT * FROM producto WHERE id_producto = ?";
 		Connection conect = null;
 		PreparedStatement stmt = null;
@@ -241,9 +243,33 @@ public class Producto {
 		return false;
 	}
 	
+/////////////////////////////////////////////// METODO INGRESAR PRODCUTO \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
-	
-	
+	public boolean guardarProducto() {
+		Conexion con = new Conexion();
+		Connection conect = con.conectar();
+		
+		PreparedStatement stmt;
+		
+		String consulta = "INSERT INTO `producto`(`nombre_producto`, `precio_producto`, `stock_producto`, `descripcion_producto`) VALUES (?,?,?,?)";
+		
+		try {
+			stmt = conect.prepareStatement(consulta);
+			stmt.setString(1, this.nombre);
+			stmt.setDouble(2, this.precio);
+			stmt.setInt(3, this.stock);
+			stmt.setString(4, this.descripcion);
+			stmt.executeUpdate();
+			
+			conect.close();
+			return true;
+			
+		} catch (Exception e) {
+			System.out.println("Hubo un error y no pudimos ejecutar la consulta" +
+							e.getMessage());
+			return false;
+		}
+	}
 	
 	
 	
