@@ -233,7 +233,9 @@ public class Producto {
                 producto = new Producto();
                 producto.setId(rs.getInt("id_producto"));
                 producto.setNombre(rs.getString("nombre_producto"));
+                producto.setPrecio(rs.getDouble("precio_producto"));
                 producto.setStock(rs.getInt("stock_producto"));
+                producto.setDescripcion(rs.getString("descripcion_producto"));
                 // Establece otros atributos si es necesario
             }
         } catch (SQLException e) {
