@@ -28,18 +28,18 @@ public class VentanaOpcionesEmpleado extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaOpcionesEmpleado frame = new VentanaOpcionesEmpleado(78);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					VentanaOpcionesEmpleado frame = new VentanaOpcionesEmpleado(78);
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -147,7 +147,7 @@ public class VentanaOpcionesEmpleado extends JFrame {
                    // new VentanaOpcion5().setVisible(true);
                     break;
                 case 6:
-                    //new VentanaOpcion6().setVisible(true);
+                    new CargarEmpleado(idEmpleado).setVisible(true);
                     break;
                 default:
                     break;

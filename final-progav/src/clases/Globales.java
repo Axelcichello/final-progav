@@ -20,6 +20,10 @@ public class Globales {
 	    return numero >= 0; // Verifica si el número es positivo
 	}
 	
+	public static boolean esNumeroEnteroPositivo(int numero) {
+	    return numero > 0; // Verifica si el número es positivo
+	}
+	
 	
 	public static boolean esDouble(double numero) {
 	    return numero >= 0; // Verifica si el número es positivo

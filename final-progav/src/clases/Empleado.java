@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
+
 import conector.Conexion;
 
 public class Empleado extends Usuario{
@@ -174,9 +176,63 @@ public class Empleado extends Usuario{
 		}
 
 
+		public static boolean validarDni(int dni) {
+			String consulta = "SELECT * FROM empleado WHERE dni_empleado = ?";
+			Connection conect = null;
+			PreparedStatement stmt = null;
+			ResultSet rs = null;
+			
+			try {
+		    	conect = new Conexion().conectar();
+		    	stmt = conect.prepareStatement(consulta);
+		    	stmt.setInt(1, dni);
+		    	rs = stmt.executeQuery();
+				
+		    	if (rs.next()) {
+		    		//rs.getString("dni_empleado");
+		    		return true;
+				} else {
+					//JOptionPane.showMessageDialog(null, "Empleado no encontrado", "Información", JOptionPane.INFORMATION_MESSAGE);
+	                return false;
+				}
+			
+			} catch (SQLException e) {
+	            e.printStackTrace();
+	            JOptionPane.showMessageDialog(null, "Producto NO encontrado", "Error", JOptionPane.ERROR_MESSAGE);
+	        }
+			return false;
+		}
+			
+			
+/////////////////////////////////////////////// METODO INGRESAR EMPLEADO \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+		
+		public boolean guardarEmpleado() {
+			Conexion con = new Conexion();
+			Connection conect = con.conectar();
 
-	
+			PreparedStatement stmt;
 
+			String consulta = "INSERT INTO `empleado`(`nombre_empleado`, `apellido_empleado`, `dni_empleado`, `telefono_empleado`, `password_empleado`,`cargo_empleado`) "
+					+ "VALUES (?,?,?,?,?,?)";
+
+			try {
+				stmt = conect.prepareStatement(consulta);
+				stmt.setString(1, super.getNombre());
+				stmt.setString(2, super.getApellido());
+				stmt.setInt(3, this.dni);
+				stmt.setInt(4, super.getTelefono());
+				stmt.setString(5, this.password);
+				stmt.setInt(6, this.cargo);
+				stmt.executeUpdate();
+
+				conect.close();
+				return true;
+
+			} catch (Exception e) {
+				System.out.println("Hubo un error y no pudimos ejecutar la consulta" + e.getMessage());
+				return false;
+			}
+		}
 
 	
 		

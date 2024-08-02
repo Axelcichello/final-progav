@@ -33,18 +33,18 @@ public class CargarProducto extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CargarProducto frame = new CargarProducto(78);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					CargarProducto frame = new CargarProducto(78);
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -169,8 +169,6 @@ public class CargarProducto extends JFrame {
 		    			JOptionPane.showMessageDialog(null, "Producto registrado con éxito");
 		    			setVisible(false);
 		    			new CargarProducto(idEmpleado).setVisible(true);;
-//		    			VentanaOpcionesEmpleado voe = new VentanaOpcionesEmpleado(idEmpleado);
-//		    			voe.setVisible(true);
 		    		} else {
 		    			JOptionPane.showMessageDialog(null, "No se pudo registrar el producto");
 		    		}

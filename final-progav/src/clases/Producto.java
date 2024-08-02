@@ -186,7 +186,6 @@ public class Producto {
 /////////////////////////////////////////////// METODO BUSCAR POR NOMBRE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
 	public static boolean buscarPorNombre(String nombre) {
-		//Producto pr = new Producto();
 		String consulta = "SELECT * FROM producto WHERE nombre_producto = ?";
 		Connection conect = null;
 		PreparedStatement stmt = null;
@@ -202,7 +201,6 @@ public class Producto {
 	    		rs.getString("nombre_producto");
 	    		return true;
 			} else {
-				//JOptionPane.showMessageDialog(null, "Producto no encontrado", "Información", JOptionPane.INFORMATION_MESSAGE);
                 return false;
 			}
 		
