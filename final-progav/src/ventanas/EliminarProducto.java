@@ -18,6 +18,8 @@ import javax.swing.table.DefaultTableModel;
 
 import clases.Globales;
 import clases.Producto;
+import java.awt.Color;
+import javax.swing.SwingConstants;
 
 public class EliminarProducto extends JFrame {
 
@@ -49,16 +51,19 @@ public class EliminarProducto extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 854, 586);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(230, 230, 250));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(25, 10, 805, 513);
+		panel.setBackground(new Color(230, 230, 250));
+		panel.setBounds(10, 10, 820, 529);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("ELIMINAR PRODUCTO");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblNewLabel.setBounds(91, 32, 241, 39);
 		panel.add(lblNewLabel);
@@ -76,17 +81,17 @@ public class EliminarProducto extends JFrame {
         
         JLabel lblNewLabel_1 = new JLabel("Lista de Productos");
         lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 18));
-        lblNewLabel_1.setBounds(91, 139, 179, 24);
+        lblNewLabel_1.setBounds(93, 118, 179, 24);
         panel.add(lblNewLabel_1);
         
         JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(91, 189, 600, 300);
+        scrollPane.setBounds(91, 152, 624, 239);
         panel.add(scrollPane);
         
         tabla = new JTable();
         scrollPane.setViewportView(tabla);
         
-        JButton btnNewButton = new JButton("Eliminar Producto");
+        JButton btnNewButton = new JButton("Eliminar producto");
         btnNewButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
@@ -98,18 +103,19 @@ public class EliminarProducto extends JFrame {
             		    return;
             		}
         			
-        			if (!Producto.buscarPorId(id)) {
+        			Producto pr = Producto.buscarPorId(id);
+        			
+        			if (pr == null) {
+        				JOptionPane.showMessageDialog(null, "Producto no encontrado.");
         				return;
-					} else {
-						cargarUnProducto(id);
-					}
+					} 
         			
-        			if (Producto.eliminarProducto(id)) {
-						JOptionPane.showMessageDialog(null, "El producto se elimino con éxtio");
-						cargarProductos();
-					}
-        			
-        			
+        			if (pr.mostrarUnProducto()) {
+						if (pr.eliminarProducto()) {
+							JOptionPane.showMessageDialog(null, "Producto eliminado con éxito.");
+							cargarProductos();
+						} 
+					} 	
 				}  catch (NumberFormatException ex) {
 				    JOptionPane.showMessageDialog(null, "El stock debe ser un número válido.");
 				} catch (Exception ex) {
@@ -120,8 +126,28 @@ public class EliminarProducto extends JFrame {
         	}
         });
         btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 17));
-        btnNewButton.setBounds(558, 132, 191, 39);
+        btnNewButton.setBounds(524, 437, 191, 39);
         panel.add(btnNewButton);
+        
+        JButton btnVolverAlMenu = new JButton("Volver al menu");
+        btnVolverAlMenu.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		setVisible(false);
+    			new VentanaOpcionesEmpleado(idEmpleado).setVisible(true);;
+        	}
+        });
+        btnVolverAlMenu.setFont(new Font("Tahoma", Font.BOLD, 17));
+        btnVolverAlMenu.setBounds(91, 437, 191, 39);
+        panel.add(btnVolverAlMenu);
+        
+	    JButton btnNewButton_2 = new JButton("Volver al menu");
+	    btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 15));
+	    btnNewButton_2.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		setVisible(false);
+    			new VentanaOpcionesEmpleado(idEmpleado).setVisible(true);;
+	    	}
+	    });
         
         cargarProductos();
         
@@ -151,24 +177,6 @@ public class EliminarProducto extends JFrame {
     	 tabla.setModel(model);
     }
      
-     private void cargarUnProducto(int id) {
-    	 Producto producto = Producto.mostrarUnProducto(id);
-    	 
-    	 if(producto != null) {
-    		 
-    		 String mensaje =	"ID: " + producto.getId() + "\n" +
-    				 			"Nombre: " + producto.getNombre() + "\n" +
-    				 			"Precio: " + producto.getPrecio() + "\n" + 
-    				 			"Stock: " + producto.getStock() + "\n" + 
-    				 			"Descripcion: " + producto.getDescripcion();
-     		 
-			
-			JOptionPane.showMessageDialog(null, mensaje, "¿Desea eliminar el producto?", JOptionPane.ERROR_MESSAGE);
-    } else {
-        JOptionPane.showMessageDialog(null, "El producto no se encontró.", "Error", JOptionPane.ERROR_MESSAGE);
 
-    	}
-     }
-     
 
 }

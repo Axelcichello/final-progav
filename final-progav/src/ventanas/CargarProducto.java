@@ -18,6 +18,7 @@ import javax.swing.JTextArea;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class CargarProducto extends JFrame {
 
@@ -53,11 +54,13 @@ public class CargarProducto extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 854, 586);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(230, 230, 250));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(new Color(230, 230, 250));
 		panel.setBounds(25, 10, 805, 513);
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -126,7 +129,7 @@ public class CargarProducto extends JFrame {
 	    textArea.setBounds(211, 334, 415, 61);
 	    panel.add(textArea);
 	    
-	    JButton btnNewButton = new JButton("REGISTRAR PRODUCTO");
+	    JButton btnNewButton = new JButton("Registrar producto");
 	    btnNewButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	    		
@@ -180,8 +183,8 @@ public class CargarProducto extends JFrame {
 
 	    	}
 	    });
-	    btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 20));
-	    btnNewButton.setBounds(471, 424, 286, 61);
+	    btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    btnNewButton.setBounds(488, 438, 227, 39);
 	    panel.add(btnNewButton);
 	    
 	    JButton btnNewButton_1 = new JButton("Verificar producto");
@@ -209,8 +212,20 @@ public class CargarProducto extends JFrame {
 	    	}
 	    });
 	    btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 12));
-	    btnNewButton_1.setBounds(595, 165, 146, 29);
+	    btnNewButton_1.setBounds(595, 165, 184, 29);
 	    panel.add(btnNewButton_1);
+	    
+	    JButton btnNewButton_2 = new JButton("Volver al menu");
+	    btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    btnNewButton_2.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		setVisible(false);
+    			new VentanaOpcionesEmpleado(idEmpleado).setVisible(true);
+	    	}
+	    });
+	    btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+	    btnNewButton_2.setBounds(71, 438, 200, 39);
+	    panel.add(btnNewButton_2);
 
 	}
 

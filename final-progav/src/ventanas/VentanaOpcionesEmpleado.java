@@ -15,13 +15,14 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.AbstractListModel;
 import javax.swing.JButton;
+import javax.swing.DropMode;
+import java.awt.Color;
 
 public class VentanaOpcionesEmpleado extends JFrame {
-
-	private static String nombreUs;
+	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private static int idEmpleado;
+	private int idEmpleado;
 	
 	
 	/**
@@ -31,7 +32,7 @@ public class VentanaOpcionesEmpleado extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaOpcionesEmpleado frame = new VentanaOpcionesEmpleado(idEmpleado);
+					VentanaOpcionesEmpleado frame = new VentanaOpcionesEmpleado(78);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,19 +49,21 @@ public class VentanaOpcionesEmpleado extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 854, 586);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(230, 230, 250));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(25, 10, 805, 513);
+		panel.setBackground(new Color(230, 230, 250));
+		panel.setBounds(0, 10, 840, 539);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Supermercado Chonguitos");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel.setBounds(258, 27, 275, 39);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblNewLabel.setBounds(260, 30, 340, 49);
 		panel.add(lblNewLabel);
 		
         JLabel lblNewLabel_1 = new JLabel("ID Usuario:");
@@ -70,17 +73,16 @@ public class VentanaOpcionesEmpleado extends JFrame {
         
         JLabel lblNewLabel_2 = new JLabel();
         lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 18));
-        lblNewLabel_2.setBounds(217, 105, 28, 24);
+        lblNewLabel_2.setBounds(230, 105, 28, 24);
         panel.add(lblNewLabel_2);
         lblNewLabel_2.setText(String.valueOf(id));
 
         
-        String nom =  lblNewLabel_2.getText();
-        
         JTextArea textArea = new JTextArea();
-        textArea.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        textArea.setBounds(91, 150, 600, 150);
+        textArea.setBackground(new Color(255, 250, 250));
         textArea.setEditable(false);
+        textArea.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        textArea.setBounds(103, 159, 621, 153);
         panel.add(textArea);
         
         String[] opciones = {
@@ -96,7 +98,9 @@ public class VentanaOpcionesEmpleado extends JFrame {
             textArea.append(opcion + "\n");
         }
         JButton btnSeleccionar = new JButton("Seleccionar Opción");
-        btnSeleccionar.setBounds(325, 320, 150, 30);
+        btnSeleccionar.setFont(new Font("Tahoma", Font.BOLD, 20));
+        //btnSeleccionar.setBackground(Color.LIGHT_GRAY);
+        btnSeleccionar.setBounds(316, 362, 234, 59);
         panel.add(btnSeleccionar);
 
         btnSeleccionar.addActionListener((ActionListener) new ActionListener() {
@@ -105,7 +109,7 @@ public class VentanaOpcionesEmpleado extends JFrame {
                 try {
                     int opcionSeleccionada = Integer.parseInt(input);
                     if (opcionSeleccionada >= 1 && opcionSeleccionada <= 6) {
-                        JOptionPane.showMessageDialog(null, "Opción seleccionada: " + opciones[opcionSeleccionada - 1]);
+                        //JOptionPane.showMessageDialog(null, "Opción seleccionada: " + opciones[opcionSeleccionada - 1]);
                         mostrarVentana(opcionSeleccionada);
                         setVisible(false);
                     } else {

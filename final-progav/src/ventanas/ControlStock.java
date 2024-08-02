@@ -18,11 +18,13 @@ import clases.Producto;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
+import javax.swing.border.LineBorder;
 
 public class ControlStock extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	//private String nombreUsuario;
+	
 	private JPanel contentPane;
 	private JTable tabla;
 	private int idEmpleado;
@@ -34,7 +36,7 @@ public class ControlStock extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ControlStock frame = new ControlStock(0);
+					ControlStock frame = new ControlStock(78);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,12 +53,14 @@ public class ControlStock extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 854, 586);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(230, 230, 250));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(25, 10, 805, 513);
+		panel.setBackground(new Color(230, 230, 250));
+		panel.setBounds(10, 10, 820, 539);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -78,17 +82,17 @@ public class ControlStock extends JFrame {
         
         JLabel lblNewLabel_1 = new JLabel("Lista de Productos");
         lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 18));
-        lblNewLabel_1.setBounds(91, 139, 179, 24);
+        lblNewLabel_1.setBounds(91, 115, 179, 24);
         panel.add(lblNewLabel_1);
         
         JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(91, 189, 600, 300);
+        scrollPane.setBounds(91, 149, 634, 221);
         panel.add(scrollPane);
         
         tabla = new JTable();
         scrollPane.setViewportView(tabla);
         
-        JButton btnNewButton = new JButton("Actualizar Stock");
+        JButton btnNewButton = new JButton("Actualizar stock");
         btnNewButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
@@ -100,8 +104,11 @@ public class ControlStock extends JFrame {
             		    return;
             		}
         			
-        			if (!Producto.buscarPorId(id)) {
-        				return;
+        			Producto pr = Producto.buscarPorId(id);
+        			
+        			if (pr == null) {
+                        JOptionPane.showMessageDialog(null, "Producto no encontrado.");
+                        return;
 					}
         			
             		int stock = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese el nuevo stock"));
@@ -109,9 +116,9 @@ public class ControlStock extends JFrame {
             		    JOptionPane.showMessageDialog(null, "El número no puede ser negativo.");
             		    return;
             		}
-            		
-            		if (Producto.actualizarStock(id, stock)) {
-    					JOptionPane.showMessageDialog(null, "Actualización con éxito");
+            		            		
+            		if (pr.actualizarStock(stock)) {
+    					//JOptionPane.showMessageDialog(null, "Actualización con éxito");
     					cargarProductos();
     				} else {
     					JOptionPane.showMessageDialog(null, "No se pudo actualizar, chequee los datos");
@@ -126,8 +133,19 @@ public class ControlStock extends JFrame {
         	}
         });
         btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 17));
-        btnNewButton.setBounds(558, 132, 191, 39);
+        btnNewButton.setBounds(568, 470, 191, 39);
         panel.add(btnNewButton);
+        
+        JButton btnNewButton_1 = new JButton("Volver al menu");
+        btnNewButton_1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		setVisible(false);
+    			new VentanaOpcionesEmpleado(idEmpleado).setVisible(true);;
+        	}
+        });
+        btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 17));
+        btnNewButton_1.setBounds(91, 470, 191, 39);
+        panel.add(btnNewButton_1);
         
         cargarProductos();
         
@@ -135,9 +153,7 @@ public class ControlStock extends JFrame {
 
 	
 	
-     private void cargarProductos() {
-    	 List<Producto> productos = Producto.mostrarProductos();
-    	 
+     private void cargarProductos() {    	 
     	 DefaultTableModel model = new DefaultTableModel();
     	 model.addColumn("ID");
     	 model.addColumn("Nombre");
@@ -145,7 +161,7 @@ public class ControlStock extends JFrame {
     	 model.addColumn("Stock");
     	 model.addColumn("Descripción");
     	 
-    	 for (Producto producto : productos) {
+    	 for (Producto producto : Producto.mostrarProductos()) {
 			model.addRow(new Object[]{
 					producto.getId(),
 					producto.getNombre(),
@@ -156,17 +172,4 @@ public class ControlStock extends JFrame {
 		}
     	 tabla.setModel(model);
     }
-     
-
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
 }

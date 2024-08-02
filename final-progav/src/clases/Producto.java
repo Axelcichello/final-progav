@@ -147,7 +147,7 @@ public class Producto {
 
 	/////////////////////////////////////////////// METODO ACTUALIZAR STOCK \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
-	public static boolean actualizarStock(int id, int nuevoStock) {
+	public boolean actualizarStock(int nuevoStock) {
 		String consulta = "UPDATE producto SET stock_producto = ? WHERE id_producto = ?";
 		Connection conect = null;
 		PreparedStatement stmt = null;
@@ -156,14 +156,15 @@ public class Producto {
 		try {
 			conect = new Conexion().conectar();
 	    	stmt = conect.prepareStatement(consulta);
+	    	
 			stmt.setInt(1, nuevoStock);
-			stmt.setInt(2, id);
+			stmt.setInt(2, this.id);
 			
 			if (stmt.executeUpdate() > 0) {
-				JOptionPane.showMessageDialog(null, "Se modifico el stock");
+				JOptionPane.showMessageDialog(null, "Se modifico el stock exitosamente");
 				return true;
 			} else {
-				System.out.println("No se puedo realizar ninguna modificacion");
+				JOptionPane.showMessageDialog(null,"No se puedo realizar ninguna modificacion");
 				return false;
 			}
 			
@@ -215,33 +216,43 @@ public class Producto {
 
 /////////////////////////////////////////////// METODO BUSCAR POR ID \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\	
 	
-	public static boolean buscarPorId(int id) {
-		//Producto pr = new Producto();
-		String consulta = "SELECT * FROM producto WHERE id_producto = ?";
-		Connection conect = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		
-		try {
-	    	conect = new Conexion().conectar();
-	    	stmt = conect.prepareStatement(consulta);
-	    	stmt.setInt(1, id);
-	    	rs = stmt.executeQuery();
-			
-	    	if (rs.next()) {
-	    		rs.getString("nombre_producto");
-	    		return true;
-			} else {
-				JOptionPane.showMessageDialog(null, "Producto no encontrado", "Información", JOptionPane.INFORMATION_MESSAGE);
-                return false;
-			}
-		
-		} catch (SQLException e) {
+	
+    public static Producto buscarPorId(int id) {
+        String consulta = "SELECT * FROM producto WHERE id_producto = ?";
+        Connection conect = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Producto producto = null;
+
+        try {
+            conect = new Conexion().conectar();
+            stmt = conect.prepareStatement(consulta);
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                // Supongamos que los atributos son id, nombre, y stock.
+                producto = new Producto();
+                producto.setId(rs.getInt("id_producto"));
+                producto.setNombre(rs.getString("nombre_producto"));
+                producto.setStock(rs.getInt("stock_producto"));
+                // Establece otros atributos si es necesario
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Producto NO encontrado", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error al buscar el producto", "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (conect != null) conect.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-		return false;
-	}
+
+        return producto;
+    }
 	
 /////////////////////////////////////////////// METODO INGRESAR PRODCUTO \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
@@ -272,9 +283,9 @@ public class Producto {
 	}
 	
 	
-/////////////////////////////////////////////// METODO ACTUALIZAR precio \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+/////////////////////////////////////////////// METODO ACTUALIZAR PRECIO \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
-	public static boolean actualizarPrecio(int id, double nuevoPrecio) {
+	public boolean actualizarPrecio(double nuevoPrecio) {
 		String consulta = "UPDATE producto SET precio_producto = ? WHERE id_producto = ?";
 		Connection conect = null;
 		PreparedStatement stmt = null;
@@ -284,10 +295,10 @@ public class Producto {
 			conect = new Conexion().conectar();
 			stmt = conect.prepareStatement(consulta);
 			stmt.setDouble(1, nuevoPrecio);
-			stmt.setInt(2, id);
+			stmt.setInt(2, this.id);
 
 			if (stmt.executeUpdate() > 0) {
-				JOptionPane.showMessageDialog(null, "Se modifico el precio");
+				JOptionPane.showMessageDialog(null, "Se modifico el precio exitosamente");
 				return true;
 			} else {
 				System.out.println("No se puedo realizar ninguna modificacion");
@@ -312,48 +323,9 @@ public class Producto {
 		}
 	}
 	
+/////////////////////////////////////////////// METODO ELIMINAR PRODUCTO \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
-	public static Producto mostrarUnProducto(int id) {
-	    Producto pr = null; // Inicializamos pr como null
-	    String consulta = "SELECT * FROM producto WHERE id_producto = ?";
-	    Connection conect = null;
-	    PreparedStatement stmt = null;
-	    ResultSet rs = null;
-
-	    try {
-	        conect = new Conexion().conectar();
-	        stmt = conect.prepareStatement(consulta);
-	        stmt.setInt(1, id);
-	        rs = stmt.executeQuery();
-
-	        if (rs.next()) { // Si hay resultados, tomamos el primero
-	            pr = new Producto(
-	                rs.getInt("id_producto"),
-	                rs.getString("nombre_producto"),
-	                rs.getDouble("precio_producto"),
-	                rs.getInt("stock_producto"),
-	                rs.getString("descripcion_producto")
-	            );
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        JOptionPane.showMessageDialog(null, "Error al cargar el producto", "Error", JOptionPane.ERROR_MESSAGE);
-	    } finally {
-	        // Asegúrate de cerrar los recursos en el bloque finally
-	        try {
-	            if (rs != null) rs.close();
-	            if (stmt != null) stmt.close();
-	            if (conect != null) conect.close();
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
-	    }
-	    return pr;
-	}
-
-	
-	
-	public static boolean eliminarProducto(int id) {
+	public boolean eliminarProducto() {
 		Conexion con = new Conexion();
 		Connection conect = con.conectar();
 		
@@ -377,8 +349,31 @@ public class Producto {
 	}
 	
 	
+/////////////////////////////////////////////// METODO MOSTRAR UN PRODUCTO \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
-	
-	
-	
+    public boolean mostrarUnProducto() {
+	        String mensaje = "ID: " + getId() + "\n" +
+	                         "Nombre: " + getNombre() + "\n" +
+	                         "Precio: " + getPrecio() + "\n" + 
+	                         "Stock: " +getStock() + "\n" + 
+	                         "Descripcion: " + getDescripcion();
+	        
+	        int opcion = JOptionPane.showConfirmDialog(null, 
+	            mensaje + "\n\n¿Desea eliminar este producto?", 
+	            "Confirmación de eliminación", 
+	            JOptionPane.YES_NO_OPTION, 
+	            JOptionPane.WARNING_MESSAGE);
+	        
+	        if (opcion == JOptionPane.YES_OPTION) {
+	        	return true;
+	        } else {
+	                JOptionPane.showMessageDialog(null, "No se pudo eliminar el producto.");
+	                return false;
+	        }
+    	}
+    
+    
+    
+    
+    
 }

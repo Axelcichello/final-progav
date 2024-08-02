@@ -65,7 +65,8 @@ public class Empleado extends Usuario{
 					+ password + "]";
 		}
 
-
+/////////////////////////////////////////////// METODO ES ADMINISTRADOR \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+		
 		public boolean esAdmin() {
 		    String consulta = "SELECT * FROM empleado WHERE nombre_empleado = ? AND password_empleado = ? AND cargo_empleado = 1";
 		    Connection conect = null;
@@ -98,6 +99,8 @@ public class Empleado extends Usuario{
 		}
 
 
+/////////////////////////////////////////////// METODO ES CAJERO \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+		
 		public boolean esCajero() {
 		    String consulta = "SELECT * FROM empleado WHERE nombre_empleado = ? AND password_empleado = ? AND cargo_empleado = 2";
 		    Connection conect = null;
@@ -129,7 +132,9 @@ public class Empleado extends Usuario{
 		}
 		
 
-		public int obtenerIdEmpleado(String nombre, String password) {
+/////////////////////////////////////////////// METODO OBTENER EMPLEADO \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+		
+		public int obtenerIdEmpleado() {
 		    String consulta = "SELECT id_empleado FROM empleado WHERE nombre_empleado = ? AND password_empleado = ?";
 		    Connection conect = null;
 		    PreparedStatement stmt = null;
@@ -142,8 +147,8 @@ public class Empleado extends Usuario{
 		        
 		        // Prepara la consulta SQL
 		        stmt = conect.prepareStatement(consulta);
-		        stmt.setString(1, nombre);
-		        stmt.setString(2, password);
+		        stmt.setString(1, super.getNombre());
+		        stmt.setString(2, this.password);
 		        
 		        // Ejecuta la consulta
 		        rs = stmt.executeQuery();

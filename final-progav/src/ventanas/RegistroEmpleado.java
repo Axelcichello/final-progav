@@ -18,16 +18,15 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
+import java.awt.Color;
 
 public class RegistroEmpleado extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField_UbtnIniciarSesion;
 	private JTextField textField_usuario;
 	private JPasswordField passwordField;
-	private JTextField textField;
-	private static String seccionSeleccionada;
+	private String seccionSeleccionada;
 	
 
 	/**
@@ -37,7 +36,7 @@ public class RegistroEmpleado extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RegistroEmpleado frame = new RegistroEmpleado(seccionSeleccionada);
+					RegistroEmpleado frame = new RegistroEmpleado("");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -49,24 +48,26 @@ public class RegistroEmpleado extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public RegistroEmpleado(String seccionSeleccionada) {
-		//seccionSeleccionada = seccionSeleccionada;
+	public RegistroEmpleado(String seccion) {
+		seccionSeleccionada = seccion;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 854, 586);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(230, 230, 250));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(new Color(230, 230, 250));
 		panel.setBounds(25, 10, 805, 513);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Supermercado Chonguitos");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel.setBounds(258, 27, 275, 39);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lblNewLabel.setBounds(208, 49, 419, 39);
 		panel.add(lblNewLabel);
 		
 		JLabel lblNewLabel_Contraseña = new JLabel("Usuario:");
@@ -112,8 +113,7 @@ public class RegistroEmpleado extends JFrame {
 					rc.setVisible(true);
 				} else if (seccionSeleccionada.equals("ADMINISTRACION") && em.esAdmin()) {
 					JOptionPane.showMessageDialog(null, "Ingreso permitido","Inicio de sesión", JOptionPane.INFORMATION_MESSAGE);
-					int idEmpleado = em.obtenerIdEmpleado(nombre, password);
-					//System.out.println(em.obtenerIdEmpleado(nombre, password)); 
+					int idEmpleado = em.obtenerIdEmpleado(); 
 					setVisible(false);
 					VentanaOpcionesEmpleado voe = new VentanaOpcionesEmpleado(idEmpleado);
 					voe.setVisible(true);
@@ -126,8 +126,8 @@ public class RegistroEmpleado extends JFrame {
 			}
 		});
 		
-		btnIniciarSesion.setFont(new Font("Tahoma", Font.BOLD, 20));
-		btnIniciarSesion.setBounds(496, 434, 187, 33);
+		btnIniciarSesion.setFont(new Font("Tahoma", Font.BOLD, 24));
+		btnIniciarSesion.setBounds(291, 350, 234, 54);
 		panel.add(btnIniciarSesion);
 		
 		textField_usuario = new JTextField();

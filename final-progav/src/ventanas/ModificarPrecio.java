@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 
 import clases.Globales;
 import clases.Producto;
+import java.awt.Color;
 
 public class ModificarPrecio extends JFrame {
 
@@ -49,12 +50,14 @@ public class ModificarPrecio extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 854, 586);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(230, 230, 250));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(25, 10, 805, 513);
+		panel.setBackground(new Color(230, 230, 250));
+		panel.setBounds(25, 10, 805, 529);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -76,17 +79,17 @@ public class ModificarPrecio extends JFrame {
         
         JLabel lblNewLabel_1 = new JLabel("Lista de Productos");
         lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 18));
-        lblNewLabel_1.setBounds(91, 139, 179, 24);
+        lblNewLabel_1.setBounds(91, 108, 179, 24);
         panel.add(lblNewLabel_1);
         
         JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(91, 189, 600, 300);
+        scrollPane.setBounds(91, 142, 600, 262);
         panel.add(scrollPane);
         
         tabla = new JTable();
         scrollPane.setViewportView(tabla);
         
-        JButton btnNewButton = new JButton("ACTUALIZAR PRECIO");
+        JButton btnNewButton = new JButton("Actualizar precio");
         btnNewButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
@@ -96,10 +99,15 @@ public class ModificarPrecio extends JFrame {
         			if (!Globales.esNumeroEntero(id)) {
             		    JOptionPane.showMessageDialog(null, "El id no puede ser negativo.");
             		    return;
-            		}
+            		}       			
+//        			if (!Producto.buscarPorId(id)) {
+//        				return;
+//					}
         			
-        			if (!Producto.buscarPorId(id)) {
-        				return;
+        			Producto pr = Producto.buscarPorId(id);
+        			if (pr == null) {
+                        JOptionPane.showMessageDialog(null, "Producto no encontrado.");
+                        return;
 					}
         			
             		int precio = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingrese el nuevo precio"));
@@ -108,8 +116,8 @@ public class ModificarPrecio extends JFrame {
             		    return;
             		}
             		
-            		if (Producto.actualizarPrecio(id, precio)) {
-    					JOptionPane.showMessageDialog(null, "Actualización con éxito");
+            		if (pr.actualizarPrecio(precio)) {
+    					//JOptionPane.showMessageDialog(null, "Actualización con éxito");
     					cargarProductos();
     				} else {
     					JOptionPane.showMessageDialog(null, "No se pudo actualizar, chequee los datos");
@@ -124,8 +132,19 @@ public class ModificarPrecio extends JFrame {
         	}
         });
         btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 17));
-        btnNewButton.setBounds(524, 132, 225, 39);
+        btnNewButton.setBounds(524, 470, 217, 39);
         panel.add(btnNewButton);
+        
+        JButton btnNewButton_1 = new JButton("Volver al menu");
+        btnNewButton_1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		setVisible(false);
+    			new VentanaOpcionesEmpleado(idEmpleado).setVisible(true);;
+        	}
+        });
+        btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 17));
+        btnNewButton_1.setBounds(79, 470, 184, 39);
+        panel.add(btnNewButton_1);
         
         cargarProductos();
         
