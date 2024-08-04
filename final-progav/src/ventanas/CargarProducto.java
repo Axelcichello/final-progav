@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import clases.Empleado;
 import clases.Globales;
 import clases.Producto;
 
@@ -49,8 +50,8 @@ public class CargarProducto extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public CargarProducto(int id) {
-		idEmpleado = id;
+	public CargarProducto(Empleado empleado) {
+		idEmpleado = empleado.obtenerIdEmpleado();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 854, 586);
 		contentPane = new JPanel();
@@ -79,7 +80,7 @@ public class CargarProducto extends JFrame {
         lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblNewLabel_2.setBounds(635, 41, 27, 24);
         panel.add(lblNewLabel_2);
-        lblNewLabel_2.setText(String.valueOf(id));
+        lblNewLabel_2.setText(String.valueOf(idEmpleado));
 	    
 		JLabel lblNewLabel_1 = new JLabel("Ingresar datos del nuevo producto");
 	    lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -168,7 +169,7 @@ public class CargarProducto extends JFrame {
 		    		if(pro.guardarProducto()) {
 		    			JOptionPane.showMessageDialog(null, "Producto registrado con éxito");
 		    			setVisible(false);
-		    			new CargarProducto(idEmpleado).setVisible(true);;
+		    			new CargarProducto(empleado).setVisible(true);;
 		    		} else {
 		    			JOptionPane.showMessageDialog(null, "No se pudo registrar el producto");
 		    		}
@@ -218,7 +219,7 @@ public class CargarProducto extends JFrame {
 	    btnNewButton_2.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	    		setVisible(false);
-    			new VentanaOpcionesEmpleado(idEmpleado).setVisible(true);
+    			new VentanaOpcionesEmpleado(empleado).setVisible(true);
 	    	}
 	    });
 	    btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 15));

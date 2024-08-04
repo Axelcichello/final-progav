@@ -78,7 +78,7 @@ public class VentanaBienvenida extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				seccionSeleccionada = "ADMINISTRACION";
-				setVisible(false);
+				frame.setVisible(false);
 				RegistroEmpleado re = new RegistroEmpleado(seccionSeleccionada);
 				re.setVisible(true);
 			}

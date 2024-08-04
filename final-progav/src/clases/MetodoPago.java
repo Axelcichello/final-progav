@@ -54,7 +54,7 @@ public class MetodoPago {
         Conexion con = new Conexion();
         Connection conect = con.conectar();
         
-        String consulta = "SELECT * FROM metodopago"; // Ajusta la consulta si es necesario
+        String consulta = "SELECT * FROM metodo_pago"; // Ajusta la consulta si es necesario
 
         try {
             PreparedStatement stmt = conect.prepareStatement(consulta);

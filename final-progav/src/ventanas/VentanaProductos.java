@@ -5,10 +5,13 @@ import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GraphicsConfiguration;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultCellEditor;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -116,6 +119,19 @@ public class VentanaProductos extends JFrame {
 		lblNewLabel_2_1.setBounds(628, 111, 177, 34);
 		lblNewLabel_2_1.setText(nombreEmpleado);
 		panel.add(lblNewLabel_2_1);
+		
+		
+	     JButton btnVolver = new JButton("Volver al menu");
+	        btnVolver.addActionListener(new ActionListener() {
+	          public void actionPerformed(ActionEvent e) {
+	            setVisible(false);
+
+	            new BusquedaCliente(empleado).setVisible(true);
+	          }
+	        });
+	        btnVolver.setBounds(58, 452, 182, 39);
+	        btnVolver.setFont((new Font("Tahoma", Font.BOLD, 18)));
+	        panel.add(btnVolver);
 		
 		cargarProductos(cliente, empleado);
 	}		

@@ -55,8 +55,8 @@ public class CargarEmpleado extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public CargarEmpleado(int id) {
-		idEmpleado = id;
+	public CargarEmpleado(Empleado empleado) {
+		idEmpleado = empleado.obtenerIdEmpleado();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 854, 586);
 		contentPane = new JPanel();
@@ -85,7 +85,7 @@ public class CargarEmpleado extends JFrame {
         lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblNewLabel_2.setBounds(689, 34, 27, 24);
         panel.add(lblNewLabel_2);
-        lblNewLabel_2.setText(String.valueOf(id));
+        lblNewLabel_2.setText(String.valueOf(idEmpleado));
 	    
 		JLabel lblNewLabel_1 = new JLabel("Ingresar datos del nuevo empleado");
 	    lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -188,7 +188,7 @@ public class CargarEmpleado extends JFrame {
 	    btnNewButton.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	    		setVisible(false);
-	    		new VentanaOpcionesEmpleado(idEmpleado).setVisible(true);
+	    		new VentanaOpcionesEmpleado(empleado).setVisible(true);
 	    	}
 	    });
 	    btnNewButton.setBounds(58, 452, 182, 39);
@@ -255,14 +255,14 @@ public class CargarEmpleado extends JFrame {
 	    			if (em.guardarEmpleado()) {
 		    			JOptionPane.showMessageDialog(null, "Empleado registrado con éxito");
 		    			setVisible(false);
-		    			new CargarEmpleado(idEmpleado).setVisible(true);;
+		    			new CargarEmpleado(empleado).setVisible(true);;
 					} 
 	    			
 	    			
 	    			
 	    			
-				} catch (Exception e2) {
-					// TODO: handle exception
+				} catch (NumberFormatException ex) {
+					 JOptionPane.showMessageDialog(null, "Cheque los datos ingresados.");
 				}
 	    		
 	    	}

@@ -372,8 +372,61 @@ public class Producto {
 	        }
     	}
     
+/////////////////////////////////////////////// METODO STOCK DISPONIBLE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+	public boolean stockDisponible(int cantidad) {
+		return cantidad <= this.stock;
+	}
     
+/////////////////////////////////////////////// METODO STOCK DISPONIBLE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+	public void restarStock(int cantidad) {
+		if (cantidad <= this.stock) {
+			this.stock -= cantidad;
+		}
+	}
     
-    
-    
+	
+	
+/////////////////////////////////////////////// METODO ACTUALIZAR STOCK EN BDD \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	public void actualizarStockEnBaseDeDatos() {
+		Conexion con = new Conexion();
+		Connection conect = con.conectar();
+
+		PreparedStatement stmt;
+
+		String consulta = "UPDATE producto SET stock = ? WHERE id = ?";
+
+		try {
+			stmt = conect.prepareStatement(consulta);
+
+			stmt.setInt(1, this.stock);
+			stmt.setInt(2, this.id);
+			stmt.executeUpdate();
+		} catch (Exception e) {
+			System.out.println("Error al actualizar el stock en la base de datos: " + e.getMessage());
+		}
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

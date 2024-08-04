@@ -10,6 +10,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
+
+import clases.Empleado;
+
 import javax.swing.JTextField;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -23,6 +26,7 @@ public class VentanaOpcionesEmpleado extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private int idEmpleado;
+	
 	
 	
 	/**
@@ -44,8 +48,8 @@ public class VentanaOpcionesEmpleado extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaOpcionesEmpleado(int id) {
-		idEmpleado = id;
+	public VentanaOpcionesEmpleado(Empleado empleado) {
+		idEmpleado = empleado.obtenerIdEmpleado();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 854, 586);
 		contentPane = new JPanel();
@@ -75,7 +79,7 @@ public class VentanaOpcionesEmpleado extends JFrame {
         lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 18));
         lblNewLabel_2.setBounds(230, 105, 28, 24);
         panel.add(lblNewLabel_2);
-        lblNewLabel_2.setText(String.valueOf(id));
+        lblNewLabel_2.setText(String.valueOf(idEmpleado));
 
         
         JTextArea textArea = new JTextArea();
@@ -99,7 +103,6 @@ public class VentanaOpcionesEmpleado extends JFrame {
         }
         JButton btnSeleccionar = new JButton("Seleccionar Opción");
         btnSeleccionar.setFont(new Font("Tahoma", Font.BOLD, 20));
-        //btnSeleccionar.setBackground(Color.LIGHT_GRAY);
         btnSeleccionar.setBounds(316, 362, 234, 59);
         panel.add(btnSeleccionar);
 
@@ -109,8 +112,7 @@ public class VentanaOpcionesEmpleado extends JFrame {
                 try {
                     int opcionSeleccionada = Integer.parseInt(input);
                     if (opcionSeleccionada >= 1 && opcionSeleccionada <= 6) {
-                        //JOptionPane.showMessageDialog(null, "Opción seleccionada: " + opciones[opcionSeleccionada - 1]);
-                        mostrarVentana(opcionSeleccionada);
+                        mostrarVentana(opcionSeleccionada, empleado);
                         setVisible(false);
                     } else {
                         JOptionPane.showMessageDialog(null, "Número no válido. Ingrese un número entre 1 y 6.");
@@ -122,32 +124,27 @@ public class VentanaOpcionesEmpleado extends JFrame {
         });
         }
 	
-	
-	
 
 
-
-
-
-		private void mostrarVentana(int opcion) {
+		private void mostrarVentana(int opcion, Empleado empleado) {
             switch (opcion) {
                 case 1:
-                    new ControlStock(idEmpleado).setVisible(true);
+                    new ControlStock(empleado).setVisible(true);
                     break;
                 case 2:
-                    new CargarProducto(idEmpleado).setVisible(true);
+                    new CargarProducto(empleado).setVisible(true);
                     break;
                 case 3:
-                    new EliminarProducto(idEmpleado).setVisible(true);
+                    new EliminarProducto(empleado).setVisible(true);
                     break;
                 case 4:
-                    new ModificarPrecio(idEmpleado).setVisible(true);
+                    new ModificarPrecio(empleado).setVisible(true);
                     break;
                 case 5:
                    // new VentanaOpcion5().setVisible(true);
                     break;
                 case 6:
-                    new CargarEmpleado(idEmpleado).setVisible(true);
+                    new CargarEmpleado(empleado).setVisible(true);
                     break;
                 default:
                     break;

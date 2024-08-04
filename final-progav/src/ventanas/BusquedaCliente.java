@@ -64,7 +64,6 @@ public class BusquedaCliente extends JFrame {
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
 		lblNewLabel.setBounds(208, 49, 419, 39);
 		panel.add(lblNewLabel);
-		//getContentPane().setLayout(null);
 
         textField_dniBuscar = new JTextField();
         textField_dniBuscar.setFont(new Font("Tahoma", Font.PLAIN, 15));

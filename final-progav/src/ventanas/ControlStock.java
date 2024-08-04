@@ -13,6 +13,7 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import clases.Empleado;
 import clases.Globales;
 import clases.Producto;
 import javax.swing.JButton;
@@ -48,8 +49,8 @@ public class ControlStock extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ControlStock(int id) {
-		idEmpleado = id;
+	public ControlStock(Empleado empleado) {
+		idEmpleado = empleado.obtenerIdEmpleado();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 854, 586);
 		contentPane = new JPanel();
@@ -140,7 +141,7 @@ public class ControlStock extends JFrame {
         btnNewButton_1.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		setVisible(false);
-    			new VentanaOpcionesEmpleado(idEmpleado).setVisible(true);;
+    			new VentanaOpcionesEmpleado(empleado).setVisible(true);;
         	}
         });
         btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 17));

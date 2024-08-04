@@ -114,9 +114,8 @@ public class RegistroEmpleado extends JFrame {
 					bc.setVisible(true);
 				} else if (seccionSeleccionada.equals("ADMINISTRACION") && empleado.esAdmin()) {
 					JOptionPane.showMessageDialog(null, "Ingreso permitido","Inicio de sesión", JOptionPane.INFORMATION_MESSAGE);
-					int idEmpleado = empleado.obtenerIdEmpleado(); 
 					setVisible(false);
-					VentanaOpcionesEmpleado voe = new VentanaOpcionesEmpleado(idEmpleado);
+					VentanaOpcionesEmpleado voe = new VentanaOpcionesEmpleado(empleado);
 					voe.setVisible(true);
 					
 				} else {

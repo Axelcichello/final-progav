@@ -190,6 +190,18 @@ public class RegistroCliente extends JFrame {
 		textField.setBounds(207, 357, 150, 32);
 		panel.add(textField);
 		
+	    JButton btnVolver = new JButton("Volver al menu");
+	    btnVolver.addActionListener(new ActionListener() {
+	      public void actionPerformed(ActionEvent e) {
+	        setVisible(false);
+
+	          new BusquedaCliente(empleado).setVisible(true);
+	      }
+	    });
+	    btnVolver.setFont(new Font("Tahoma", Font.BOLD, 18));
+	    btnVolver.setBounds(38, 461, 182, 39);
+	    panel.add(btnVolver);
+		
 		
 	}
 }

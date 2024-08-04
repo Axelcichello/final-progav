@@ -16,6 +16,7 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import clases.Empleado;
 import clases.Globales;
 import clases.Producto;
 import java.awt.Color;
@@ -46,8 +47,8 @@ public class EliminarProducto extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public EliminarProducto(int id) {
-		idEmpleado = id;
+	public EliminarProducto(Empleado empleado) {
+		idEmpleado = empleado.obtenerIdEmpleado();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 854, 586);
 		contentPane = new JPanel();
@@ -117,7 +118,7 @@ public class EliminarProducto extends JFrame {
 						} 
 					} 	
 				}  catch (NumberFormatException ex) {
-				    JOptionPane.showMessageDialog(null, "El stock debe ser un número válido.");
+				    JOptionPane.showMessageDialog(null, "Ingrese un número válido.");
 				} catch (Exception ex) {
 				    JOptionPane.showMessageDialog(null, "Ocurrió un error inesperado: " + ex.getMessage());
 				}
@@ -133,7 +134,7 @@ public class EliminarProducto extends JFrame {
         btnVolverAlMenu.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		setVisible(false);
-    			new VentanaOpcionesEmpleado(idEmpleado).setVisible(true);;
+    			new VentanaOpcionesEmpleado(empleado).setVisible(true);;
         	}
         });
         btnVolverAlMenu.setFont(new Font("Tahoma", Font.BOLD, 17));
@@ -145,7 +146,7 @@ public class EliminarProducto extends JFrame {
 	    btnNewButton_2.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	    		setVisible(false);
-    			new VentanaOpcionesEmpleado(idEmpleado).setVisible(true);;
+    			new VentanaOpcionesEmpleado(empleado).setVisible(true);;
 	    	}
 	    });
         
