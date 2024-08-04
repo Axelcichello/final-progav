@@ -22,6 +22,16 @@ public class Usuario {
 		this.telefono = telefono;
 	}
 
+	
+
+	public Usuario(int id, String nombre, String apellido, int telefono) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.telefono = telefono;
+	}
+
 
 	public int getId() {
 		return id;

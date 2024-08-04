@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import clases.Cliente;
+import clases.Empleado;
+import clases.Globales;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,31 +25,33 @@ public class RegistroCliente extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField_nombre;
 	private JTextField textField_apellido;
-	private JTextField textField_telefono;
+	private JTextField textField_dni;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNombre;
 	private JButton btnConfirmar;
-	static RegistroCliente frame = new RegistroCliente();
+	//static RegistroCliente frame = new RegistroCliente();
+	private JLabel lblTelefono_1;
+	private JTextField textField;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					RegistroCliente frame = new RegistroCliente(null);
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
 	 */
-	public RegistroCliente() {
+	public RegistroCliente(Empleado empleado) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 854, 586);
 		contentPane = new JPanel();
@@ -89,39 +93,85 @@ public class RegistroCliente extends JFrame {
 		textField_apellido.setBounds(207, 249, 150, 32);
 		panel.add(textField_apellido);
 		
-		JLabel lblTelefono = new JLabel("Telefono:");
-		lblTelefono.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblTelefono.setBounds(105, 296, 82, 40);
-		panel.add(lblTelefono);
+		JLabel lblDni = new JLabel("DNI:");
+		lblDni.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblDni.setBounds(105, 296, 82, 40);
+		panel.add(lblDni);
 		
-		textField_telefono = new JTextField();
-		textField_telefono.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textField_telefono.setColumns(10);
-		textField_telefono.setBounds(207, 301, 150, 32);
-		panel.add(textField_telefono);
+		textField_dni = new JTextField();
+		textField_dni.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		textField_dni.setColumns(10);
+		textField_dni.setBounds(207, 301, 150, 32);
+		panel.add(textField_dni);
 		
 		lblNewLabel_1 = new JLabel("INGRESAR DATOS DEL CLIENTE");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel_1.setBounds(105, 132, 334, 25);
+		lblNewLabel_1.setBounds(105, 144, 334, 25);
 		panel.add(lblNewLabel_1);
 		
 		btnConfirmar = new JButton("CONFIRMAR");
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String nombre = textField_nombre.getText();
-				String apellido = textField_apellido.getText();
-				int telefono = Integer.parseInt(textField_telefono.getText());
+
 				
-				Cliente cl = new Cliente(nombre, apellido, telefono);
-				if (cl.guardarCliente()) {
+				try {
+			
+					String nombre = textField_nombre.getText();
+	    			if (!Globales.esSoloLetras(nombre)) {
+						JOptionPane.showMessageDialog(null, "Ingrese un nombre válido", "Error de validación", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+	    			
+	  
+	    			String apellido = textField_apellido.getText();
+	    			if (!Globales.esSoloLetras(apellido)) {
+						JOptionPane.showMessageDialog(null, "Ingrese un apellido válido", "Error de validación", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+	    			
+	    			
+	    			int dni;
+	    			try {
+	    				dni = Integer.parseInt(textField_dni.getText());
+		    			if (!Globales.esNumeroEnteroPositivo(dni)) {
+		    				JOptionPane.showMessageDialog(null, "Ingrese un DNI válido", "Error de validación", JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+	    				
+	    				
+					} catch (NumberFormatException e1) {
+						JOptionPane.showMessageDialog(null, "Ingrese un DNI válido (número entero positivo)", "Error de validación", JOptionPane.ERROR_MESSAGE);
+				        return;
+					}
+	    			
+	    			int telefono;
+	    			try {
+	    				telefono = Integer.parseInt(textField.getText());
+		    			if (!Globales.esNumeroEnteroPositivo(telefono)) {
+		    				JOptionPane.showMessageDialog(null, "Ingrese un telefono válido", "Error de validación", JOptionPane.ERROR_MESSAGE);
+							return;
+		    			}
+					} catch (NumberFormatException e2) {
+				        JOptionPane.showMessageDialog(null, "Ingrese un teléfono válido (número entero positivo)", "Error de validación", JOptionPane.ERROR_MESSAGE);
+				        return;
+				    }
+	    			
+						
+					Cliente clienteNuevo = new Cliente(nombre, apellido, telefono, dni);
+					
+				if (clienteNuevo.guardarCliente()) {
 					JOptionPane.showMessageDialog(null, "Se guardo el cliente en la base de datos");
-					frame.setVisible(false);
-					VentanaProductos vp = new VentanaProductos(nombre);
+					setVisible(false);
+					VentanaProductos vp = new VentanaProductos(clienteNuevo, empleado);
 					vp.setVisible(true);
 				} else {
 					JOptionPane.showMessageDialog(null, "No se guardo el cliente en la base de datos");
 
-				}
+				}	
+						
+					} catch (Exception e2) {
+						 e2.printStackTrace(); 
+					}
 				
 			}
 		});
@@ -129,7 +179,17 @@ public class RegistroCliente extends JFrame {
 		btnConfirmar.setBounds(524, 391, 168, 46);
 		panel.add(btnConfirmar);
 		
+		lblTelefono_1 = new JLabel("Telefono:");
+		lblTelefono_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblTelefono_1.setBounds(105, 357, 82, 40);
+		panel.add(lblTelefono_1);
+		
+		textField = new JTextField();
+		textField.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		textField.setColumns(10);
+		textField.setBounds(207, 357, 150, 32);
+		panel.add(textField);
+		
 		
 	}
-
 }

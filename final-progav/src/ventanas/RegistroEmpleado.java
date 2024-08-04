@@ -99,21 +99,22 @@ public class RegistroEmpleado extends JFrame {
 			    }
 			    
 
-				Empleado em = new Empleado(nombre, password);
+				Empleado empleado = new Empleado(nombre, password);
 				
-				if (seccionSeleccionada.equals("COMPRAS") && em.esAdmin()) {
+				if (seccionSeleccionada.equals("COMPRAS") && empleado.esAdmin()) {
                     JOptionPane.showMessageDialog(null, "No puedes acceder a la sección Compras como Administrador", "Acceso denegado", JOptionPane.ERROR_MESSAGE);
                     return;
-				} else if (seccionSeleccionada.equals("ADMINISTRACION") && em.esCajero()) {
+				} else if (seccionSeleccionada.equals("ADMINISTRACION") && empleado.esCajero()) {
                     JOptionPane.showMessageDialog(null, "No puedes acceder a la sección Administracion como Cajero", "Acceso denegado", JOptionPane.ERROR_MESSAGE);
                     return;
-				} else if (seccionSeleccionada.equals("COMPRAS") && em.esCajero()) {
-					setVisible(false);
-					RegistroCliente rc = new RegistroCliente();
-					rc.setVisible(true);
-				} else if (seccionSeleccionada.equals("ADMINISTRACION") && em.esAdmin()) {
+				} else if (seccionSeleccionada.equals("COMPRAS") && empleado.esCajero()) {
 					JOptionPane.showMessageDialog(null, "Ingreso permitido","Inicio de sesión", JOptionPane.INFORMATION_MESSAGE);
-					int idEmpleado = em.obtenerIdEmpleado(); 
+					setVisible(false);
+					BusquedaCliente bc = new BusquedaCliente(empleado);
+					bc.setVisible(true);
+				} else if (seccionSeleccionada.equals("ADMINISTRACION") && empleado.esAdmin()) {
+					JOptionPane.showMessageDialog(null, "Ingreso permitido","Inicio de sesión", JOptionPane.INFORMATION_MESSAGE);
+					int idEmpleado = empleado.obtenerIdEmpleado(); 
 					setVisible(false);
 					VentanaOpcionesEmpleado voe = new VentanaOpcionesEmpleado(idEmpleado);
 					voe.setVisible(true);

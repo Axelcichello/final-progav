@@ -12,6 +12,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.EmptyBorder;
@@ -20,6 +21,10 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import clases.Cliente;
+import clases.Empleado;
+import clases.Globales;
+import clases.MetodoPago;
 import clases.Producto;
 import clases.Venta;
 
@@ -31,8 +36,10 @@ public class VentanaProductos extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable tablaProductos;
-	private static String nombre;
-	static VentanaProductos frame = new VentanaProductos(nombre);
+	//private static String nombre;
+	//VentanaProductos frame = new VentanaProductos(String, int);
+	private String nombreCliente;
+	private String nombreEmpleado;
 
 	/**
 	 * Launch the application.
@@ -41,7 +48,7 @@ public class VentanaProductos extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					
+					VentanaProductos frame = new VentanaProductos(null, null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -53,7 +60,10 @@ public class VentanaProductos extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaProductos(String nombre) {
+	public VentanaProductos(Cliente cliente, Empleado empleado) {
+		//nombreCliente = cliente.getNombre();
+		nombreCliente = cliente.getNombre();
+		nombreEmpleado = empleado.getNombre();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 854, 586);
 		contentPane = new JPanel();
@@ -72,16 +82,16 @@ public class VentanaProductos extends JFrame {
 		panel.add(lblNewLabel);
 		
 		
-        JLabel lblNewLabel_1 = new JLabel("Bienvenido:");
+        JLabel lblNewLabel_1 = new JLabel("Cliente:");
         lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 18));
         lblNewLabel_1.setBounds(91, 105, 116, 24);
         panel.add(lblNewLabel_1);
 		
         JLabel lblNewLabel_2 = new JLabel();
         lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 18));
-        lblNewLabel_2.setBounds(225, 105, 413, 24);
+        lblNewLabel_2.setBounds(196, 105, 174, 24);
         panel.add(lblNewLabel_2);
-        lblNewLabel_2.setText(nombre);
+        lblNewLabel_2.setText(nombreCliente);
 		
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -96,11 +106,22 @@ public class VentanaProductos extends JFrame {
 		lblNewLabel1.setBounds(91, 170, 291, 24);
 		panel.add(lblNewLabel1);
 		
-		cargarProductos();
+		JLabel lblNewLabel_1_1 = new JLabel("Cajero:");
+		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblNewLabel_1_1.setBounds(542, 115, 140, 24);
+		panel.add(lblNewLabel_1_1);
+		
+		JLabel lblNewLabel_2_1 = new JLabel();
+		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblNewLabel_2_1.setBounds(628, 111, 177, 34);
+		lblNewLabel_2_1.setText(nombreEmpleado);
+		panel.add(lblNewLabel_2_1);
+		
+		cargarProductos(cliente, empleado);
 	}		
 			
 	
-	private void cargarProductos() {
+	private void cargarProductos(Cliente cliente, Empleado empleado) {
 	    List<Producto> productos = Producto.mostrarProductos();
 	    
 	    DefaultTableModel model = new DefaultTableModel() {
@@ -174,13 +195,46 @@ public class VentanaProductos extends JFrame {
 	                    }
 	                }
 	                // Aquí puedes manejar lo que deseas hacer con el producto seleccionado
-	                Producto productoSeleccionado = productos.get(row);
-	                if (isSelected) {
-	                    System.out.println("Producto seleccionado: " + productoSeleccionado.getNombre());
+	                Producto productoSeleccionado = productos.get(row);	                
+	                try {
+	                    // Intentar obtener la entrada del usuario
+	                    String input = JOptionPane.showInputDialog("Seleccione la cantidad a comprar");
 	                    
-	                } else {
-	                    System.out.println("Ningún producto seleccionado");
+	                    // Verificar si se canceló el diálogo
+	                    if (input == null) {
+	                        return;
+	                    }
+	                    
+	                    // Intentar convertir la entrada a un número entero
+	                    int cantSeleccionada = Integer.parseInt(input);
+	                    
+	                    // Verificar si el número es positivo
+	                    if (cantSeleccionada <= 0) {
+	                        JOptionPane.showMessageDialog(this, "La cantidad debe ser un número positivo.", "Error", JOptionPane.ERROR_MESSAGE);
+	                        model.setValueAt(false, row, column);
+	                        return;
+	                    }
+	                    
+						MetodoPago metodoPago = MetodoPago.seleccionarMetodoPago();
+
+						if (metodoPago != null) {
+							// Abrir la ventana de ticket con el producto seleccionado
+							TicketCompra ticket = new TicketCompra(productoSeleccionado, cantSeleccionada, metodoPago, cliente, empleado);
+							ticket.setVisible(true);
+						} else {
+							JOptionPane.showMessageDialog(this, "No se seleccionó ningún método de pago. Venta cancelada.", "Error", JOptionPane.ERROR_MESSAGE);
+						}
+
+	                } catch (NumberFormatException em) {
+	                    // Si ocurre una NumberFormatException, significa que el input no es un número
+	                    JOptionPane.showMessageDialog(this, "Solo se permiten números enteros.", "Error", JOptionPane.ERROR_MESSAGE);
+	                    model.setValueAt(false, row, column);
+	                } catch (Exception em) {
+	                    // Manejo de otras excepciones
+	                    em.printStackTrace(); // O algún otro manejo de excepción
 	                }
+	                
+	                
 	            }
 	        }
 	    });
