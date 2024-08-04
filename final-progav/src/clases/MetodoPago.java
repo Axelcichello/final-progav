@@ -61,8 +61,8 @@ public class MetodoPago {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                int id = rs.getInt("id_metodoPago");
-                String nombre = rs.getString("nombre_metodoPago");
+                int id = rs.getInt("id_metodo_pago");
+                String nombre = rs.getString("nombre_metodo_pago");
                 MetodoPago metodoPago = new MetodoPago(id, nombre);
                 metodosPago.add(metodoPago);
             }
