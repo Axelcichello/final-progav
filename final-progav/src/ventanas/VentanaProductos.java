@@ -235,8 +235,13 @@ public class VentanaProductos extends JFrame {
 
 						if (metodoPago != null) {
 							// Abrir la ventana de ticket con el producto seleccionado
-							TicketCompra ticket = new TicketCompra(productoSeleccionado, cantSeleccionada, metodoPago, cliente, empleado);
-							ticket.setVisible(true);
+							if(productoSeleccionado.getStock() >= cantSeleccionada) {
+								TicketCompra ticket = new TicketCompra(productoSeleccionado, cantSeleccionada, metodoPago, cliente, empleado);
+								ticket.setVisible(true);
+							}else {
+								JOptionPane.showMessageDialog(this, "Cantidad no disponible.", "Error", JOptionPane.ERROR_MESSAGE);
+							}
+							
 						} else {
 							JOptionPane.showMessageDialog(this, "No se seleccionó ningún método de pago. Venta cancelada.", "Error", JOptionPane.ERROR_MESSAGE);
 						}
