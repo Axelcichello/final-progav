@@ -31,7 +31,7 @@ public class BusquedaCliente extends JFrame {
 //		EventQueue.invokeLater(new Runnable() {
 //			public void run() {
 //				try {
-//					BusquedaCliente frame = new BusquedaCliente("empleado ");
+//					BusquedaCliente frame = new BusquedaCliente(null);
 //					frame.setVisible(true);
 //				} catch (Exception e) {
 //					e.printStackTrace();

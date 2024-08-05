@@ -1,6 +1,7 @@
 package ventanas;
 
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -71,12 +72,14 @@ public class VentanaProductos extends JFrame {
 		setBounds(100, 100, 854, 586);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBackground(new Color(230, 230, 250));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
 		panel.setBounds(25, 10, 805, 513);
 		contentPane.add(panel);
+		panel.setBackground(new Color(230, 230, 250));
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Supermercado Chonguitos");

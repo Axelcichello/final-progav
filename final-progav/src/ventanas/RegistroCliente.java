@@ -1,5 +1,6 @@
 package ventanas;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -56,12 +57,14 @@ public class RegistroCliente extends JFrame {
 		setBounds(100, 100, 854, 586);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBackground(new Color(230, 230, 250));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(10, 10, 820, 529);
+		panel.setBackground(new Color(230, 230, 250));
 		contentPane.add(panel);
 		panel.setLayout(null);
 		

@@ -1,5 +1,6 @@
 package ventanas;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -31,18 +32,18 @@ public class TicketCompra extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TicketCompra frame = new TicketCompra(null, 31, null, null, null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					TicketCompra frame = new TicketCompra(null, 31, null, null, null);
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -65,12 +66,14 @@ public class TicketCompra extends JFrame {
 		setBounds(100, 100, 854, 586);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBackground(new Color(230, 230, 250));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
 		panel.setBounds(25, 10, 805, 513);
 		contentPane.add(panel);
+		panel.setBackground(new Color(230, 230, 250));
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Supermercado Chonguitos");
