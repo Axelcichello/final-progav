@@ -4,10 +4,13 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -23,6 +26,7 @@ public class TicketCompra extends JFrame {
 	private JPanel contentPane;
 	private String nombreCliente;
 	private String nombreEmpleado;
+	private double totalVenta = 0;
 
 	/**
 	 * Launch the application.
@@ -44,23 +48,18 @@ public class TicketCompra extends JFrame {
 	 * Create the frame.
 	 */
 	public TicketCompra(Producto producto, int cantSeleccionada, MetodoPago metodoPagoOBJ, Cliente cliente, Empleado empleado) {
-//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		setBounds(100, 100, 450, 300);
-//		contentPane = new JPanel();
-//		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-//
-//		setContentPane(contentPane);
 		nombreCliente = cliente.getNombre();
 		nombreEmpleado = empleado.getNombre();
+		//int metPag = metodoPagoOBJ.getId();
 		
-		
-//		
-//		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//        setBounds(100, 100, 854, 586); // Mismo tamaño que VentanaProductos
-//        contentPane = new JPanel();
-//        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-//        setContentPane(contentPane);
-//        contentPane.setLayout(null);
+        if(metodoPagoOBJ.getNombre().equalsIgnoreCase("Efectivo")) {
+			
+			totalVenta =  (cantSeleccionada * producto.getPrecio() * 0.9);
+			String descuento = "Descuento efectivo 10%";
+			
+		}else {
+			totalVenta =  (cantSeleccionada * producto.getPrecio());
+		}
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 854, 586);
@@ -79,17 +78,17 @@ public class TicketCompra extends JFrame {
 		lblNewLabel.setBounds(258, 27, 275, 39);
 		panel.add(lblNewLabel);
 
-        JLabel lblTitulo = new JLabel("Ticket de Compra");
+		JLabel lblTitulo = new JLabel("Ticket de Compra");
         lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 20));
         lblTitulo.setBounds(30, 95, 200, 30);
         panel.add(lblTitulo);
 
         JLabel lblNombre = new JLabel("Producto: " + producto.getNombre());
         lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblNombre.setBounds(30, 163, 300, 25);
+        lblNombre.setBounds(30, 163, 387, 25);
         panel.add(lblNombre);
 
-        JLabel lblPrecio = new JLabel("Precio: $" + producto.getPrecio());
+        JLabel lblPrecio = new JLabel("Total: $ " + totalVenta + "    " +(metodoPagoOBJ.getNombre().equalsIgnoreCase("Efectivo") ? " Descuento 10% efectivo" : "" ));
         lblPrecio.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblPrecio.setBounds(30, 198, 300, 25);
         panel.add(lblPrecio);
@@ -126,14 +125,32 @@ public class TicketCompra extends JFrame {
         panel.add(btnFinalizarVenta);
         
         
+	
+        btnFinalizarVenta.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	
+            	
+//        		LocalDate fechaVenta = LocalDate.now();
+//        		LocalTime horaVenta = LocalTime.now();
+//            	
+//            	Venta vt = new Venta(fechaVenta, horaVenta, totalVenta, cliente, empleado, metodoPagoOBJ, producto,cantSeleccionada );
+//                if (vt.guardarVenta()) {
+//					JOptionPane.showMessageDialog(null, "Venta realizada con existo");
+//				} else {
+//					JOptionPane.showMessageDialog(null, "no se realizo la venta");
+//				}
+//            	
+            	Venta.finalizarVenta(producto, cantSeleccionada, metodoPagoOBJ, cliente, empleado, totalVenta);
+                VentanaProductos vp = new VentanaProductos(cliente, empleado);
+                vp.setVisible(true);
+                setVisible(false);
+				
+            }
+        });
+        
+        
         
 	}}
-
-//        btnFinalizarVenta.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                Venta.finalizarVenta(producto, cantSeleccionada, metodoPagoOBJ.getId(), clienteCompra.getId(), idEmpleado);
-//            }
-//        });
     
 
 	

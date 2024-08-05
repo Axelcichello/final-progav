@@ -141,7 +141,7 @@ public class VentanaOpcionesEmpleado extends JFrame {
                     new ModificarPrecio(empleado).setVisible(true);
                     break;
                 case 5:
-                   // new VentanaOpcion5().setVisible(true);
+                    new RecaudacionCompra(empleado).setVisible(true);
                     break;
                 case 6:
                     new CargarEmpleado(empleado).setVisible(true);

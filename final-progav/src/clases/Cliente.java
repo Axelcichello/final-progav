@@ -1,5 +1,7 @@
 package clases;
 
+
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -115,7 +117,7 @@ public class Cliente extends Usuario{
     }
 	
 	public int obtenerIdCliente() {
-	    String consulta = "SELECT dni_cliente FROM cliente WHERE dni_cliente = ?";
+	    String consulta = "SELECT id_cliente FROM cliente WHERE telefono_cliente = ?";
 	    Connection conect = null;
 	    PreparedStatement stmt = null;
 	    ResultSet rs = null;
@@ -127,7 +129,7 @@ public class Cliente extends Usuario{
 	        
 	        // Prepara la consulta SQL
 	        stmt = conect.prepareStatement(consulta);
-	        stmt.setInt(1, this.getDni());
+	        stmt.setInt(1, this.getTelefono());
 	        
 	        
 	        // Ejecuta la consulta
@@ -135,7 +137,7 @@ public class Cliente extends Usuario{
 	        
 	        // Si hay resultados, obtiene el ID del empleado
 	        if (rs.next()) {
-	            idCliente = rs.getInt("dni_cliente");
+	            idCliente = rs.getInt("id_cliente");
 	        }
 	    } catch (SQLException e) {
 	        System.out.println("Error al obtener el dni del cliente: " + e.getMessage());
