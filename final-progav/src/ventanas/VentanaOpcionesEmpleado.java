@@ -105,6 +105,18 @@ public class VentanaOpcionesEmpleado extends JFrame {
         btnSeleccionar.setFont(new Font("Tahoma", Font.BOLD, 20));
         btnSeleccionar.setBounds(316, 362, 234, 59);
         panel.add(btnSeleccionar);
+        
+        JButton btnNewButton = new JButton("Volver a inicio");
+        btnNewButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		VentanaBienvenida vb = new VentanaBienvenida();
+        		vb.setVisible(true);
+        		setVisible(false);
+        	}
+        });
+        btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 16));
+        btnNewButton.setBounds(72, 436, 170, 34);
+        panel.add(btnNewButton);
 
         btnSeleccionar.addActionListener((ActionListener) new ActionListener() {
             public void actionPerformed(ActionEvent e) {

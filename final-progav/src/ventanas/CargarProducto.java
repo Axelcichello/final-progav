@@ -136,7 +136,7 @@ public class CargarProducto extends JFrame {
 	    		
 	    		try {
 	    			String nombre = textField.getText();
-		    		if (!Globales.esAlfanumerico(nombre)) {
+		    		if (!Globales.esProducto(nombre)) {
 						JOptionPane.showMessageDialog(null, "El nombre debe contener solo letras y números", "Error de validación", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
@@ -160,7 +160,7 @@ public class CargarProducto extends JFrame {
 		    		
 		    		
 		    		String descripcion = textArea.getText();
-		    		if (!Globales.esAlfanumerico(descripcion)) {
+		    		if (!Globales.esProducto(descripcion)) {
 						JOptionPane.showMessageDialog(null, "La descripcion debe contener solo letras y números", "Error de validación", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
@@ -192,7 +192,7 @@ public class CargarProducto extends JFrame {
 	    		
 	    		try {
 	    			String nombre = textField.getText();
-	    		if (!Globales.esAlfanumerico(nombre)) {
+	    		if (!Globales.esProducto(nombre)) {
 					JOptionPane.showMessageDialog(null, "El nombre debe contener solo letras y números", "Error de validación", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
@@ -203,8 +203,8 @@ public class CargarProducto extends JFrame {
 	    		} else {
 	    			JOptionPane.showMessageDialog(null, "No hay ningun producto registrado con ese nombre");
 	    		}
-				} catch (Exception e2) {
-					// TODO: handle exception
+				} catch  (Exception ex) {
+				    JOptionPane.showMessageDialog(null, "Ocurrió un error inesperado: " + ex.getMessage());
 				}
 
 	    		

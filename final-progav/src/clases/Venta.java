@@ -140,11 +140,12 @@ public class Venta {
 	}
 	
 	
+/////////////////////////////////////////////// METODO FINALIZAR LA VENTA  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
 	
 	public static void finalizarVenta(Producto producto, int cantSeleccionada, MetodoPago metodoPagoOBJ, Cliente cliente,
 			Empleado empleado, double totalVenta) {
 
-		// Obtener la fecha y la hora actuales
 		LocalDate fechaVenta = LocalDate.now();
 		LocalTime horaVenta = LocalTime.now();
 
@@ -156,8 +157,7 @@ public class Venta {
 
 		try {
 			stmt = conect.prepareStatement(consulta);
-
-			// Configurar los parámetros de la consulta
+			
 			stmt.setDate(1, java.sql.Date.valueOf(fechaVenta));
 			stmt.setTime(2, java.sql.Time.valueOf(horaVenta));
 			stmt.setDouble(3, totalVenta);
@@ -169,14 +169,10 @@ public class Venta {
 
 			stmt.executeUpdate();
 			conect.close();
-	
-			int nuevoStock = producto.getStock() - cantSeleccionada;
-			producto.actualizarStock(nuevoStock);
-			System.out.println("SE guardo");
 			
-			
-			BusquedaCliente bc = new BusquedaCliente(empleado);
-			bc.setVisible(true);
+			JOptionPane.showMessageDialog(null, "La compra se realizo satisfactoriamente");			
+//			BusquedaCliente bc = new BusquedaCliente(empleado);
+//			bc.setVisible(true);
 
 		} catch (Exception e) {
 			System.out.println("Hubo un error y no pudimos ejecutar la consulta" + e.getMessage());
@@ -185,43 +181,8 @@ public class Venta {
 	}
 	
 	
-//	public boolean guardarVenta() {
-//		Conexion con = new Conexion();
-//		Connection conect = con.conectar();
-//		
-//		PreparedStatement stmt;
-//		
-//		String consulta = "INSERT INTO `venta`(`fecha_venta`, `hora_venta`, "
-//				+ "`total_venta`, `cliente_id_venta`, `empleado_id_venta`,"
-//				+ " `metodo_pago_venta`, `producto_id_venta`, `cantidad_producto_venta`)"
-//				+ " VALUES (?,?,?,?,?,?,?,?)";		
-//		try {
-//			
-//			stmt = conect.prepareStatement(consulta);
-//			stmt.setDate(1, java.sql.Date.valueOf(getFecha()));
-//			stmt.setTime(2, java.sql.Time.valueOf(getHora()));
-//			stmt.setDouble(3, this.total_venta);
-//			stmt.setInt(4, this.getCliente().getId());
-//			stmt.setInt(5, this.getEmpleado().getId());
-//			stmt.setInt(6, this.getMp().getId());
-//			stmt.setInt(7, this.getProducto().getId());
-//			stmt.setInt(8, this.cantidadProducto);
-//			
-//			stmt.executeUpdate();
-//			
-//			conect.close();
-//			return true;
-//			
-//		} catch (Exception e) {
-//			System.out.println("Hubo un error y no pudimos ejecutar la consulta" +
-//							e.getMessage());
-//			return false;
-//		}
-//	}
-	
-	
-	
-	
+/////////////////////////////////////////////// METODO MOSTRAR RECAUDACION \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
 	
 	
 	public static double recaudacionDia(java.util.Date fecha2) {
@@ -240,11 +201,10 @@ public class Venta {
             if (rs.next()) {
             	
             	return rs.getDouble("total_del_dia");
-		}			
+            }			
 		} catch (SQLException e) {
-	        e.printStackTrace(); // Manejar la excepción de SQL
+	        e.printStackTrace(); 
 	    } finally {
-	        // Cerrar recursos en el bloque finally
 	        try {
 	            if (rs != null) rs.close();
 	            if (stmt != null) stmt.close();

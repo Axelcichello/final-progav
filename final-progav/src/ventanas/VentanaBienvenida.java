@@ -18,7 +18,7 @@ public class VentanaBienvenida extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	static VentanaBienvenida frame = new VentanaBienvenida();
+	//static VentanaBienvenida frame = new VentanaBienvenida();
 	private String seccionSeleccionada;
 
 	/**
@@ -78,7 +78,7 @@ public class VentanaBienvenida extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				seccionSeleccionada = "ADMINISTRACION";
-				frame.setVisible(false);
+				setVisible(false);
 				RegistroEmpleado re = new RegistroEmpleado(seccionSeleccionada);
 				re.setVisible(true);
 			}
@@ -92,7 +92,7 @@ public class VentanaBienvenida extends JFrame {
 		btnCompras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				seccionSeleccionada = "COMPRAS";
-				frame.setVisible(false);
+				setVisible(false);
 				RegistroEmpleado re = new RegistroEmpleado(seccionSeleccionada);
 				re.setVisible(true);
 			}

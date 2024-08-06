@@ -16,7 +16,6 @@ public class Usuario {
 
 	public Usuario(String nombre, String apellido, int telefono) {
 		super();
-		//this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.telefono = telefono;

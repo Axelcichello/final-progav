@@ -43,6 +43,8 @@ public class BusquedaCliente extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
+	
 	public BusquedaCliente(Empleado empleado) {
 		nombreEmpleado = empleado.getNombre();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -67,13 +69,13 @@ public class BusquedaCliente extends JFrame {
 
         textField_dniBuscar = new JTextField();
         textField_dniBuscar.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        textField_dniBuscar.setBounds(78, 250, 135, 31);
+        textField_dniBuscar.setBounds(312, 247, 135, 31);
         panel.add(textField_dniBuscar);
         textField_dniBuscar.setColumns(10);
 
         JLabel lblNewLabel_dni = new JLabel("INGRESE EL DNI DEL CLIENTE");
         lblNewLabel_dni.setFont(new Font("Tahoma", Font.BOLD, 15));
-        lblNewLabel_dni.setBounds(78, 201, 241, 39);
+        lblNewLabel_dni.setBounds(263, 202, 241, 39);
         panel.add(lblNewLabel_dni);
 
         JButton btnNewButton = new JButton("REGISTRAR CLIENTE");
@@ -90,7 +92,7 @@ public class BusquedaCliente extends JFrame {
 
         JButton botonBuscar = new JButton("BUSCAR");
         botonBuscar.setFont(new Font("Tahoma", Font.BOLD, 15));
-        botonBuscar.setBounds(78, 301, 108, 39);
+        botonBuscar.setBounds(322, 292, 108, 39);
         panel.add(botonBuscar);
         
         JLabel lblNewLabel_dni_1 = new JLabel("Cajero: ");
@@ -103,6 +105,18 @@ public class BusquedaCliente extends JFrame {
         lblNewLabel_dni_1_1.setBounds(559, 129, 221, 39);
         lblNewLabel_dni_1_1.setText(nombreEmpleado);
         panel.add(lblNewLabel_dni_1_1);
+        
+        JButton btnNewButton_1 = new JButton("VOLVER AL INICIO");
+        btnNewButton_1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		VentanaBienvenida vb = new VentanaBienvenida();
+        		vb.setVisible(true);
+        		setVisible(false);
+        	}
+        });
+        btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+        btnNewButton_1.setBounds(67, 427, 209, 39);
+        panel.add(btnNewButton_1);
         botonBuscar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	

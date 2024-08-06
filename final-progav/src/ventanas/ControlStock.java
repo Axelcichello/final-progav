@@ -119,7 +119,6 @@ public class ControlStock extends JFrame {
             		}
             		            		
             		if (pr.actualizarStock(stock)) {
-    					//JOptionPane.showMessageDialog(null, "Actualización con éxito");
     					cargarProductos();
     				} else {
     					JOptionPane.showMessageDialog(null, "No se pudo actualizar, chequee los datos");
@@ -141,7 +140,7 @@ public class ControlStock extends JFrame {
         btnNewButton_1.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		setVisible(false);
-    			new VentanaOpcionesEmpleado(empleado).setVisible(true);;
+    			new VentanaOpcionesEmpleado(empleado).setVisible(true);
         	}
         });
         btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 17));

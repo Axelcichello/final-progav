@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import conector.Conexion;
 
 public class Cliente extends Usuario{
-	private int numeroMembresia;
 	private int dni;
 
 	
@@ -32,21 +31,13 @@ public class Cliente extends Usuario{
 		this.dni = dni;
 	}
 
-	public int getNumeroMembresia() {
-		return numeroMembresia;
-	}
-
-	public void setNumeroMembresia(int numeroMembresia) {
-		this.numeroMembresia = numeroMembresia;
-	}
-
 	@Override
 	public String toString() {
-		return "Cliente [toString()=" + super.toString() + ", numeroMembresia=" + numeroMembresia + "]";
+		return "Cliente [dni=" + dni + "]";
 	}
+
 	
-	
-	
+/////////////////////////////////////////////// METODO GUARDAR CLIENTE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
 	public boolean guardarCliente() {
 		Conexion con = new Conexion();
@@ -73,6 +64,8 @@ public class Cliente extends Usuario{
 		}
 	}
 	
+	
+/////////////////////////////////////////////// METODO VERIFICAR CLIENTE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
 	public static Cliente verificarCliente(int dni) {
         Connection conect = null;
@@ -116,33 +109,30 @@ public class Cliente extends Usuario{
         return null;
     }
 	
+	
+/////////////////////////////////////////////// METODO OBTENER ID CLIENTE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	
 	public int obtenerIdCliente() {
 	    String consulta = "SELECT id_cliente FROM cliente WHERE telefono_cliente = ?";
 	    Connection conect = null;
 	    PreparedStatement stmt = null;
 	    ResultSet rs = null;
-	    int idCliente = -1; // Valor predeterminado en caso de que no se encuentre el empleado
+	    int idCliente = -1; 
 
 	    try {
-	        // Establece la conexión a la base de datos
 	        conect = new Conexion().conectar();
-	        
-	        // Prepara la consulta SQL
 	        stmt = conect.prepareStatement(consulta);
 	        stmt.setInt(1, this.getTelefono());
-	        
-	        
-	        // Ejecuta la consulta
+
 	        rs = stmt.executeQuery();
 	        
-	        // Si hay resultados, obtiene el ID del empleado
+	        
 	        if (rs.next()) {
 	            idCliente = rs.getInt("id_cliente");
 	        }
 	    } catch (SQLException e) {
 	        System.out.println("Error al obtener el dni del cliente: " + e.getMessage());
 	    } finally {
-	        // Cierra los recursos
 	        try {
 	            if (rs != null) rs.close();
 	            if (stmt != null) stmt.close();
@@ -155,6 +145,7 @@ public class Cliente extends Usuario{
 	    return idCliente;
 	}
 	
+/////////////////////////////////////////////// METODO OBTENER NOMBRE CLIENTE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
 	public String obtenerNombreCliente(int dni) {
 	    String consulta = "SELECT nombre_cliente, apellido_cliente FROM cliente WHERE dni_cliente = ?";
@@ -163,26 +154,17 @@ public class Cliente extends Usuario{
 	    ResultSet rs = null;
 	    String nombreCliente = null;
 	    try {
-	        // Establece la conexión a la base de datos
 	        conect = new Conexion().conectar();
-	        
-	        // Prepara la consulta SQL
 	        stmt = conect.prepareStatement(consulta);
 	        stmt.setInt(1, dni);
-	        
-	        
-	        // Ejecuta la consulta
 	        rs = stmt.executeQuery();
 	        
-	        // Si hay resultados, obtiene el ID del empleado
 	        if (rs.next()) {
-	            nombreCliente = rs.getString("nombre_cliente");
-	            
+	            nombreCliente = rs.getString("nombre_cliente");      
 	        }
 	    } catch (SQLException e) {
 	        System.out.println("Error al obtener el dni del cliente: " + e.getMessage());
 	    } finally {
-	        // Cierra los recursos
 	        try {
 	            if (rs != null) rs.close();
 	            if (stmt != null) stmt.close();

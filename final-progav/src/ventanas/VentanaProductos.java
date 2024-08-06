@@ -1,6 +1,5 @@
 package ventanas;
 
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
@@ -34,40 +33,38 @@ import clases.Venta;
 
 import javax.swing.JScrollPane;
 
-
 public class VentanaProductos extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable tablaProductos;
-	//private static String nombre;
-	//VentanaProductos frame = new VentanaProductos(String, int);
 	private String nombreCliente;
 	private String nombreEmpleado;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaProductos frame = new VentanaProductos(null, null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					VentanaProductos frame = new VentanaProductos(null, null);
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
 	 */
+	
 	public VentanaProductos(Cliente cliente, Empleado empleado) {
-		//nombreCliente = cliente.getNombre();
 		nombreCliente = cliente.getNombre();
 		nombreEmpleado = empleado.getNombre();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 854, 586);
 		contentPane = new JPanel();
@@ -109,7 +106,7 @@ public class VentanaProductos extends JFrame {
 		
 		JLabel lblNewLabel1 = new JLabel("Seleccionar el producto a comprar:");
 		lblNewLabel1.setFont(new Font("Tahoma", Font.BOLD, 17));
-		lblNewLabel1.setBounds(91, 170, 291, 24);
+		lblNewLabel1.setBounds(91, 170, 331, 24);
 		panel.add(lblNewLabel1);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Cajero:");
@@ -146,13 +143,11 @@ public class VentanaProductos extends JFrame {
 	    DefaultTableModel model = new DefaultTableModel() {
 	        @Override
 	        public boolean isCellEditable(int row, int column) {
-	            // Hacer editable solo la columna "Seleccionar"
 	            return column == 3;
 	        }
 
 	        @Override
 	        public Class<?> getColumnClass(int columnIndex) {
-	            // Necesario para que funcione el JRadioButton
 	            if (columnIndex == 3) {
 	                return Boolean.class;
 	            }
@@ -170,13 +165,13 @@ public class VentanaProductos extends JFrame {
 	                producto.getNombre(),
 	                producto.getPrecio(),
 	                producto.getDescripcion(),
-	                false // Inicialmente, el JRadioButton está desmarcado
+	                false 
 	        });
 	    }
 	    
 	    tablaProductos.setModel(model);
 	    
-	    // Configurar el renderizador para la columna de selección
+	    // Renderizar
 	    tablaProductos.getColumnModel().getColumn(3).setCellRenderer(new TableCellRenderer() {
 	        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 	            JCheckBox checkBox = new JCheckBox();
@@ -191,7 +186,7 @@ public class VentanaProductos extends JFrame {
 	        }
 	    });
 	    
-	    // Configurar el editor para la columna de selección
+	    // Configuracion del editor
 	    JCheckBox checkBox = new JCheckBox();
 	    DefaultCellEditor editor = new DefaultCellEditor(checkBox);
 	    tablaProductos.getColumnModel().getColumn(3).setCellEditor(editor);
@@ -213,50 +208,67 @@ public class VentanaProductos extends JFrame {
 	                        }
 	                    }
 	                }
-	                // Aquí puedes manejar lo que deseas hacer con el producto seleccionado
+	                
+	                // Logica para el producto seleccionado
 	                Producto productoSeleccionado = productos.get(row);	                
 	                try {
-	                    // Intentar obtener la entrada del usuario
-	                    String input = JOptionPane.showInputDialog("Seleccione la cantidad a comprar");
+	                    String cantidad = JOptionPane.showInputDialog("Seleccione la cantidad a comprar");
 	                    
-	                    // Verificar si se canceló el diálogo
-	                    if (input == null) {
+	                    if (cantidad == null) {
 	                        return;
 	                    }
-	                    
-	                    // Intentar convertir la entrada a un número entero
-	                    int cantSeleccionada = Integer.parseInt(input);
-	                    
-	                    // Verificar si el número es positivo
+	                    int cantSeleccionada = Integer.parseInt(cantidad);
 	                    if (cantSeleccionada <= 0) {
 	                        JOptionPane.showMessageDialog(this, "La cantidad debe ser un número positivo.", "Error", JOptionPane.ERROR_MESSAGE);
 	                        model.setValueAt(false, row, column);
 	                        return;
 	                    }
 	                    
+						// metodo stockDisponible
+						if (!productoSeleccionado.stockDisponible(cantSeleccionada)) {
+							JOptionPane.showMessageDialog(this, "La cantidad seleccionada supera el stock disponible.",
+									"Stock insuficiente", JOptionPane.WARNING_MESSAGE);
+							model.setValueAt(false, row, column);
+							return;
+						}
+	                    
 						MetodoPago metodoPago = MetodoPago.seleccionarMetodoPago();
 
 						if (metodoPago != null) {
 							// Abrir la ventana de ticket con el producto seleccionado
-							if(productoSeleccionado.getStock() >= cantSeleccionada) {
-								TicketCompra ticket = new TicketCompra(productoSeleccionado, cantSeleccionada, metodoPago, cliente, empleado);
+							if (productoSeleccionado.getStock() >= cantSeleccionada) {
+								setVisible(false);
+								TicketCompra ticket = new TicketCompra(productoSeleccionado, cantSeleccionada,
+										metodoPago, cliente, empleado);
 								ticket.setVisible(true);
-							}else {
-								JOptionPane.showMessageDialog(this, "Cantidad no disponible.", "Error", JOptionPane.ERROR_MESSAGE);
+							} else {
+								JOptionPane.showMessageDialog(this, "Cantidad no disponible.", "Error",
+										JOptionPane.ERROR_MESSAGE);
 							}
-							
-						} else {
-							JOptionPane.showMessageDialog(this, "No se seleccionó ningún método de pago. Venta cancelada.", "Error", JOptionPane.ERROR_MESSAGE);
-						}
 
-	                } catch (NumberFormatException em) {
-	                    // Si ocurre una NumberFormatException, significa que el input no es un número
-	                    JOptionPane.showMessageDialog(this, "Solo se permiten números enteros.", "Error", JOptionPane.ERROR_MESSAGE);
-	                    model.setValueAt(false, row, column);
-	                } catch (Exception em) {
-	                    // Manejo de otras excepciones
-	                    em.printStackTrace(); // O algún otro manejo de excepción
-	                }
+						} else {
+							JOptionPane.showMessageDialog(this,
+									"No se seleccionó ningún método de pago. Venta cancelada.", "Error",
+									JOptionPane.ERROR_MESSAGE);
+						}
+						
+						//System.out.println("Stock antes de restar: " + productoSeleccionado.getStock());
+						// metodo que actualiza el stock en producto
+						productoSeleccionado.restarStock(cantSeleccionada);
+						//System.out.println("Stock después de restar: " + productoSeleccionado.getStock());
+
+						// METODO PARA GUARDAR ACTUALIZAR EL NUEVO STOCK
+						productoSeleccionado.actualizarStockEnBaseDeDatos();
+						//System.out.println("Stock actualizado en la base de datos.");
+
+					} catch (NumberFormatException em) {
+						// Si ocurre una NumberFormatException, significa que el input no es un número
+						JOptionPane.showMessageDialog(this, "Solo se permiten números enteros.", "Error",
+								JOptionPane.ERROR_MESSAGE);
+						model.setValueAt(false, row, column);
+					} catch (Exception em) {
+						em.printStackTrace(); 
+					}
 	                
 	                
 	            }

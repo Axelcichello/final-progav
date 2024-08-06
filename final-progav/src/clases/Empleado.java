@@ -81,10 +81,8 @@ public class Empleado extends Usuario{
 		    	stmt = conect.prepareStatement(consulta);
 		        stmt.setString(1, super.getNombre());
 		        stmt.setString(2, this.password);
+		        rs = stmt.executeQuery();	    
 		        
-		        //((ResultSet) stmt).getInt(super.getId());
-		        
-		        rs = stmt.executeQuery();	        
 		        return rs.next();
 		    } catch (SQLException e) {
 		        System.out.println("Hubo un error y no pudimos ejecutar la consulta: " + e.getMessage());
@@ -114,10 +112,9 @@ public class Empleado extends Usuario{
 		    	conect = new Conexion().conectar();
 		    	stmt = conect.prepareStatement(consulta);
 		        stmt.setString(1, super.getNombre());
-		        stmt.setString(2, this.password);
-		        //stmt.setInt(3, cargo);
-		        
+		        stmt.setString(2, this.password);	        
 		        rs = stmt.executeQuery();
+		        
 		        return rs.next();
 		    } catch (SQLException e) {
 		        System.out.println("No tiene permitido el acceso: " + e.getMessage());
@@ -134,35 +131,29 @@ public class Empleado extends Usuario{
 		}
 		
 
-/////////////////////////////////////////////// METODO OBTENER EMPLEADO \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+/////////////////////////////////////////////// METODO OBTENER ID EMPLEADO \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 		
 		public int obtenerIdEmpleado() {
 		    String consulta = "SELECT id_empleado FROM empleado WHERE nombre_empleado = ? AND password_empleado = ?";
 		    Connection conect = null;
 		    PreparedStatement stmt = null;
 		    ResultSet rs = null;
-		    int idEmpleado = -1; // Valor predeterminado en caso de que no se encuentre el empleado
+		    int idEmpleado = -1; 
 
 		    try {
-		        // Establece la conexión a la base de datos
 		        conect = new Conexion().conectar();
-		        
-		        // Prepara la consulta SQL
 		        stmt = conect.prepareStatement(consulta);
 		        stmt.setString(1, super.getNombre());
 		        stmt.setString(2, this.password);
-		        
-		        // Ejecuta la consulta
 		        rs = stmt.executeQuery();
 		        
-		        // Si hay resultados, obtiene el ID del empleado
+		        
 		        if (rs.next()) {
 		            idEmpleado = rs.getInt("id_empleado");
 		        }
 		    } catch (SQLException e) {
 		        System.out.println("Error al obtener el ID del empleado: " + e.getMessage());
 		    } finally {
-		        // Cierra los recursos
 		        try {
 		            if (rs != null) rs.close();
 		            if (stmt != null) stmt.close();
@@ -175,6 +166,8 @@ public class Empleado extends Usuario{
 		    return idEmpleado;
 		}
 
+		
+/////////////////////////////////////////////// METODO VALIDAR DNI  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 		public static boolean validarDni(int dni) {
 			String consulta = "SELECT * FROM empleado WHERE dni_empleado = ?";
@@ -189,10 +182,8 @@ public class Empleado extends Usuario{
 		    	rs = stmt.executeQuery();
 				
 		    	if (rs.next()) {
-		    		//rs.getString("dni_empleado");
 		    		return true;
 				} else {
-					//JOptionPane.showMessageDialog(null, "Empleado no encontrado", "Información", JOptionPane.INFORMATION_MESSAGE);
 	                return false;
 				}
 			

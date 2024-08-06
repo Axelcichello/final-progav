@@ -48,8 +48,7 @@ public class RecaudacionCompra extends JFrame {
 	 * Create the frame.
 	 */
 	public RecaudacionCompra(Empleado empleado) {
-		//idEmpleado = empleado.obtenerIdEmpleado();
-		idEmpleado = 12;
+		idEmpleado = empleado.obtenerIdEmpleado();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 854, 586);
 		contentPane = new JPanel();
@@ -127,16 +126,26 @@ public class RecaudacionCompra extends JFrame {
         lblNewLabel_1_1_1.setBounds(673, 98, 106, 41);
         panel.add(lblNewLabel_1_1_1);
         lblNewLabel_1_1_1.setText(String.valueOf(idEmpleado));
+        
+        JButton btnNewButton_1 = new JButton("Volver al menu");
+        btnNewButton_1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		setVisible(false);
+    			new VentanaOpcionesEmpleado(empleado).setVisible(true);
+        	}
+        });
+        btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 17));
+        btnNewButton_1.setBounds(80, 441, 181, 31);
+        panel.add(btnNewButton_1);
 	
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String fechaTexto = textField_fecha.getText();
                 SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
-                formatoFecha.setLenient(false); // No permitir fechas fuera del rango
+                formatoFecha.setLenient(false); 
 
                 try {
                     Date fecha = formatoFecha.parse(fechaTexto);
-                    //Venta.recaudacionDia(fecha);
                     double recaudacion = Venta.recaudacionDia(fecha);
                     
                     if (recaudacion != 0) {
@@ -153,11 +162,7 @@ public class RecaudacionCompra extends JFrame {
                     	lblInfoAdicional2.setVisible(false);
                     	lblInfoAdicional3.setVisible(false);
                     }
-                    
-                    // La fecha es válida, puedes continuar con el procesamiento
-                    //JOptionPane.showMessageDialog(null, "Fecha válida: " + formatoFecha.format(fecha));
                 } catch (ParseException ex) {
-                    // La fecha no es válida
                     JOptionPane.showMessageDialog(null, "Fecha no válida. Por favor ingrese la fecha en formato dd/MM/yyyy.");
                 	lblInfoAdicional.setVisible(false);
                 	lblInfoAdicional2.setVisible(false);

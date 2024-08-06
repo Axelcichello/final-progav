@@ -51,7 +51,6 @@ public class TicketCompra extends JFrame {
 	public TicketCompra(Producto producto, int cantSeleccionada, MetodoPago metodoPagoOBJ, Cliente cliente, Empleado empleado) {
 		nombreCliente = cliente.getNombre();
 		nombreEmpleado = empleado.getNombre();
-		//int metPag = metodoPagoOBJ.getId();
 		
         if(metodoPagoOBJ.getNombre().equalsIgnoreCase("Efectivo")) {
 			
@@ -93,7 +92,7 @@ public class TicketCompra extends JFrame {
 
         JLabel lblPrecio = new JLabel("Total: $ " + totalVenta + "    " +(metodoPagoOBJ.getNombre().equalsIgnoreCase("Efectivo") ? " Descuento 10% efectivo" : "" ));
         lblPrecio.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblPrecio.setBounds(30, 198, 300, 25);
+        lblPrecio.setBounds(30, 198, 575, 25);
         panel.add(lblPrecio);
 
         JLabel lblDescripcion = new JLabel("Descripción: " + producto.getDescripcion());
@@ -123,26 +122,23 @@ public class TicketCompra extends JFrame {
         
 
         JButton btnFinalizarVenta = new JButton("Finalizar Venta");
-        btnFinalizarVenta.setFont(new Font("Tahoma", Font.BOLD, 14));
-        btnFinalizarVenta.setBounds(350, 450, 150, 30);
+        btnFinalizarVenta.setFont(new Font("Tahoma", Font.BOLD, 17));
+        btnFinalizarVenta.setBounds(318, 418, 200, 39);
         panel.add(btnFinalizarVenta);
         
-        
-	
+        JButton btnNewButton = new JButton("Volver atras");
+        btnNewButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		setVisible(false);
+        		VentanaProductos vp = new VentanaProductos(cliente, empleado);
+        		vp.setVisible(true);
+        	}
+        });
+        btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnNewButton.setBounds(50, 440, 149, 39);
+        panel.add(btnNewButton);
         btnFinalizarVenta.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	
-            	
-//        		LocalDate fechaVenta = LocalDate.now();
-//        		LocalTime horaVenta = LocalTime.now();
-//            	
-//            	Venta vt = new Venta(fechaVenta, horaVenta, totalVenta, cliente, empleado, metodoPagoOBJ, producto,cantSeleccionada );
-//                if (vt.guardarVenta()) {
-//					JOptionPane.showMessageDialog(null, "Venta realizada con existo");
-//				} else {
-//					JOptionPane.showMessageDialog(null, "no se realizo la venta");
-//				}
-//            	
             	Venta.finalizarVenta(producto, cantSeleccionada, metodoPagoOBJ, cliente, empleado, totalVenta);
                 VentanaProductos vp = new VentanaProductos(cliente, empleado);
                 vp.setVisible(true);

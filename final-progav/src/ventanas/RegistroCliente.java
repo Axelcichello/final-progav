@@ -30,7 +30,6 @@ public class RegistroCliente extends JFrame {
 	private JLabel lblNewLabel_1;
 	private JLabel lblNombre;
 	private JButton btnConfirmar;
-	//static RegistroCliente frame = new RegistroCliente();
 	private JLabel lblTelefono_1;
 	private JTextField textField;
 	/**
@@ -52,6 +51,7 @@ public class RegistroCliente extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
 	public RegistroCliente(Empleado empleado) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 854, 586);

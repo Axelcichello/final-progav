@@ -167,7 +167,6 @@ public class CargarEmpleado extends JFrame {
 	    for (Cargo cargo : cargos) {
 			comboBox.addItem(cargo);
 		}
-	    //JComboBox<Cargo> combo = new JComboBox<>(cargos.toArray(new Cargo[0]));
 	    comboBox.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	    		
@@ -263,6 +262,9 @@ public class CargarEmpleado extends JFrame {
 	    			
 				} catch (NumberFormatException ex) {
 					 JOptionPane.showMessageDialog(null, "Cheque los datos ingresados.");
+				} catch (Exception ex) {
+				    JOptionPane.showMessageDialog(null, "Ocurrió un error inesperado: " + ex.getMessage());
+
 				}
 	    		
 	    	}

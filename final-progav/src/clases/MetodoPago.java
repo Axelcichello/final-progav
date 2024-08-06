@@ -47,14 +47,15 @@ public class MetodoPago {
 		return nombre;
 	}
 	
-	
+/////////////////////////////////////////////// METODO OBTENER UN METODO DE PAGO \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
 	
 	public static List<MetodoPago> obtenerMetodosPago() {
         List<MetodoPago> metodosPago = new ArrayList<>();
         Conexion con = new Conexion();
         Connection conect = con.conectar();
         
-        String consulta = "SELECT * FROM metodo_pago"; // Ajusta la consulta si es necesario
+        String consulta = "SELECT * FROM metodo_pago"; 
 
         try {
             PreparedStatement stmt = conect.prepareStatement(consulta);
@@ -75,7 +76,8 @@ public class MetodoPago {
         return metodosPago;
     }
 	
-	
+/////////////////////////////////////////////// METODO SELECCIONAR METODO PAGO \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
 	
 	public static MetodoPago seleccionarMetodoPago() {
         List<MetodoPago> metodosPago = MetodoPago.obtenerMetodosPago();
@@ -90,7 +92,7 @@ public class MetodoPago {
         if (opcion == JOptionPane.OK_OPTION) {
             return (MetodoPago) comboBox.getSelectedItem();
         } else {
-            return null; // Indica que no se seleccionó ningún método de pago
+            return null; 
         }
     }
 	

@@ -48,6 +48,7 @@ public class RegistroEmpleado extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
 	public RegistroEmpleado(String seccion) {
 		seccionSeleccionada = seccion;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -119,7 +120,7 @@ public class RegistroEmpleado extends JFrame {
 					voe.setVisible(true);
 					
 				} else {
-					JOptionPane.showMessageDialog(null, "Ingreso denegado, intentelo de nuevo","Acceso denegado", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Ingreso denegado, usuario o contraseña incorrectos","Acceso denegado", JOptionPane.ERROR_MESSAGE);
 					}
 				
 
@@ -140,6 +141,18 @@ public class RegistroEmpleado extends JFrame {
 		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		passwordField.setBounds(189, 248, 438, 32);
 		panel.add(passwordField);
+		
+		JButton btnNewButton = new JButton("Volver al inicio");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaBienvenida vb = new VentanaBienvenida();
+        		vb.setVisible(true);
+        		setVisible(false);
+			}
+		});
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnNewButton.setBounds(65, 438, 163, 39);
+		panel.add(btnNewButton);
 
 		
 
